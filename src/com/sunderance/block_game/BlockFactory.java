@@ -1,6 +1,7 @@
 package com.sunderance.block_game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Factory for creating blocks at a given co-ordinate
@@ -17,6 +18,8 @@ public class BlockFactory {
 	
 	private double initialX;
 	private double initialY;
+	
+	private Random pieceGenerator;
 	
 	/**
 	 * Creates a BlockFactory that will produce blocks at the given X and Y
@@ -36,6 +39,8 @@ public class BlockFactory {
 		zComponents = withRotations(componentsFactory.z());
 		oComponents = withRotations(componentsFactory.o());
 		iComponents = withRotations(componentsFactory.i());
+		
+		pieceGenerator = new Random();
 	}
 	
 	/**
@@ -58,6 +63,28 @@ public class BlockFactory {
 		}
 		
 		return rotations;
+	}
+	
+	/**
+	 * Creates a random block
+	 * 
+	 * @return The block
+	 */
+	public Block random() {
+		int type = pieceGenerator.nextInt(5);
+		
+		switch (type) {
+		case 0:
+			return s();
+		case 1:
+			return z();
+		case 2:
+			return l();
+		case 3:
+			return i();
+		default:
+			return o();
+		}
 	}
 
 	/**
