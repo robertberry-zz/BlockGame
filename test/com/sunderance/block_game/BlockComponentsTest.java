@@ -20,7 +20,8 @@ import Jama.Matrix;
  */
 public class BlockComponentsTest {
 	/**
-	 * Test constructing from an array of doubles works correctly
+	 * Test method for
+	 * {@link com.sunderance.block_game.BlockComponents#fromVectors(double[][][])}
 	 */
 	@Test
 	public void testFromVectors() {
@@ -54,8 +55,10 @@ public class BlockComponentsTest {
 		}
 	}
 
+
 	/**
-	 * Test rotation of components works correctly
+	 * Test method for
+	 * {@link com.sunderance.block_game.BlockComponents#getRotation()}
 	 */
 	@Test
 	public void testGetRotation() {

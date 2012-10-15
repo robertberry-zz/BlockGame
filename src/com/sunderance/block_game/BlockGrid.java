@@ -33,7 +33,24 @@ public class BlockGrid {
 	 * @return The initial point
 	 */
 	public Pair<Integer, Integer> getBlockStartPoint() {
-		return new Pair<Integer, Integer>(Math.round(columns / 2), rows);
+		return new Pair<Integer, Integer>(
+				(int) Math.ceil((columns - 1) / 2), 
+				rows - 1);
+	}
+	
+	/**
+	 * Helper method - throws an error if x and y are outside the bounds of the
+	 * grid
+	 * 
+	 * @param x The x co-ordinate
+	 * @param y The y co-ordinate
+	 */
+	private void assertValidCoordinates(int x, int y) {
+		if (x > columns || y > rows || x < 0 || y < 0) {
+			throw new IndexOutOfBoundsException(
+					String.format("(%d, %d) out of range for %dx%d game grid.",
+							x, y, columns, rows));
+		}
 	}
 	
 	/**
@@ -44,6 +61,7 @@ public class BlockGrid {
 	 * @return The value
 	 */
 	public int get(int x, int y) {
+		assertValidCoordinates(x, y);
 		return this.grid[x][y];
 	}
 	
@@ -55,6 +73,7 @@ public class BlockGrid {
 	 * @param val The new value
 	 */
 	public void set(int x, int y, int val) {
+		assertValidCoordinates(x, y);
 		this.grid[x][y] = val;
 	}
 	
