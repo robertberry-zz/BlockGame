@@ -38,8 +38,7 @@ public class BlockFactory {
 		lComponents = withRotations(componentsFactory.l());
 		sComponents = withRotations(componentsFactory.s());
 		zComponents = withRotations(componentsFactory.z());
-		oComponents = new ArrayList<BlockComponents>();
-		oComponents.add(componentsFactory.o());
+		oComponents = withRotations(componentsFactory.o());
 		iComponents = withRotations(componentsFactory.i());
 		
 		pieceGenerator = new Random();
@@ -47,23 +46,18 @@ public class BlockFactory {
 	}
 	
 	/**
-	 * Helper method for producing a list of 90 degree rotations of a given
-	 * BlockComponents
+	 * Helper method for producing a list of the original block and its 90-
+	 * degree rotation
 	 * 
 	 * @param block The original components
-	 * @return The original with three 90-degree rotations
+	 * @return The original with a 90-degree rotation
 	 */
 	private ArrayList<BlockComponents> withRotations(BlockComponents block) {
 		ArrayList<BlockComponents> rotations = new ArrayList<BlockComponents>();
 
 		rotations.add(block);
-		
-		int n_rotations = 3;
-		
-		for (int n = 0; n < n_rotations; n++) {
-			block = block.getRotation();
-			rotations.add(block);
-		}
+		block = block.getRotation();
+		rotations.add(block);
 		
 		return rotations;
 	}
@@ -100,7 +94,7 @@ public class BlockFactory {
 			ArrayList<BlockComponents> components) {
 		
 		return new Block(grid, components, 
-				imageFactory.random(components.size()), 0);
+				imageFactory.random(components.get(0).getComponents().size()), 0);
 	}
 
 	/**

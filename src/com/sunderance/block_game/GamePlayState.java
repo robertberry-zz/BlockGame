@@ -63,6 +63,8 @@ public class GamePlayState extends GameState {
 			currentBlock.moveLeft();
 		} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
 			currentBlock.moveRight();
+		} else if (input.isKeyPressed(Input.KEY_SPACE)) {
+			currentBlock = blockFactory.random();
 		}
 	}
 }
