@@ -1,6 +1,5 @@
 package com.sunderance.block_game;
 
-import com.sunderance.utils.Pair;
 
 /**
  * The game grid
@@ -9,7 +8,11 @@ import com.sunderance.utils.Pair;
  * @version 0.1
  */
 public class BlockGrid {
+	private int x;
+	private int y;
+	private int blockSize;
 	private int columns;
+
 	private int rows;
 	
 	private int[][] grid;
@@ -20,22 +23,22 @@ public class BlockGrid {
 	 * @param columns The number of columns
 	 * @param rows The number of rows
 	 */
-	public BlockGrid(int columns, int rows) {
+	public BlockGrid(int x, int y, int blockSize, int columns, int rows) {
 		super();
+		this.x = x;
+		this.y = y;
+		this.blockSize = blockSize;
 		this.columns = columns;
 		this.rows = rows;
 		this.grid = new int[columns][rows];
 	}
 	
-	/**
-	 * Returns the initial point where blocks in the grid should appear
-	 * 
-	 * @return The initial point
-	 */
-	public Pair<Integer, Integer> getBlockStartPoint() {
-		return new Pair<Integer, Integer>(
-				(int) Math.ceil((columns - 1) / 2), 
-				rows - 1);
+	public int getStartX() {
+		return (int) Math.ceil((columns - 1) / 2);
+	}
+	
+	public int getStartY() {
+		return rows - 1;
 	}
 	
 	/**
@@ -86,5 +89,32 @@ public class BlockGrid {
 				set(x, y, 0);
 			}
 		}
+	}
+	
+	/**
+	 * X co-ordinate of top-left of grid
+	 * 
+	 * @return The x co-ordinate
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Y co-ordinate of top-left of grid
+	 * 
+	 * @return The y co-ordinate
+	 */
+	public int getY() {
+		return y;
+	}
+
+	/**
+	 * Size of a block in pixels
+	 * 
+	 * @return The size
+	 */
+	public int getBlockSize() {
+		return blockSize;
 	}
 }

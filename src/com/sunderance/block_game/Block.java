@@ -2,6 +2,10 @@ package com.sunderance.block_game;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Image;
+
+import com.sunderance.utils.Pair;
+
 import Jama.Matrix;
 
 /**
@@ -11,11 +15,17 @@ import Jama.Matrix;
  * @version 0.1
  */
 public class Block {
+	private final static int SIZE = 32;
+	
+	private BlockGrid grid;
+	
 	private double x;
 	
 	private double y;
 	
 	private ArrayList<BlockComponents> projections;
+	
+	private ArrayList<Image> images;
 	
 	private int currentProjection;
 
@@ -24,17 +34,21 @@ public class Block {
 	 * projections of component pieces for the four possible rotations of
 	 * the block
 	 * 
+	 * @param grid The game grid
 	 * @param x The initial x co-ordinate
 	 * @param y The initial y co-ordinate
 	 * @param projections The rotation vectors
 	 * @param currentProjection The current rotation (0-3)
 	 */
-	public Block(double x, double y, ArrayList<BlockComponents> projections,
-			int currentProjection) {
+	public Block(BlockGrid grid,
+			ArrayList<BlockComponents> projections,
+			ArrayList<Image> images, int currentProjection) {
 		super();
-		this.x = x;
-		this.y = y;
+		this.grid = grid;
+		this.x = grid.getStartX();
+		this.y = grid.getStartY();
 		this.projections = projections;
+		this.images = images;
 		this.currentProjection = currentProjection;
 	}
 	
@@ -64,11 +78,11 @@ public class Block {
 	public ArrayList<Matrix> getCoordinates() {
 		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
 		
-		double[][] center_coordinates = {{x, y}};
+		double[][] center_coordinates = {{x}, {y}};
 		Matrix center = new Matrix(center_coordinates);
 		
 		for (Matrix component : getComponents()) {
-			coordinates.add(component.times(center));
+			coordinates.add(center.plus(component.times(SIZE)));
 		}
 		
 		return coordinates;
@@ -94,5 +108,9 @@ public class Block {
 		} else {
 			currentProjection += 1;
 		}
+	}
+	
+	public void render() {
+		
 	}
 }

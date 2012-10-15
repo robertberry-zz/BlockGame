@@ -3,6 +3,8 @@ package com.sunderance.block_game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.newdawn.slick.SlickException;
+
 /**
  * Factory for creating blocks at a given co-ordinate
  * 
@@ -15,22 +17,21 @@ public class BlockFactory {
 	private ArrayList<BlockComponents> zComponents;
 	private ArrayList<BlockComponents> oComponents;
 	private ArrayList<BlockComponents> iComponents;
-	
-	private double initialX;
-	private double initialY;
-	
+	private BlockGrid grid;
 	private Random pieceGenerator;
+	private BlockImageFactory imageFactory;
 	
 	/**
 	 * Creates a BlockFactory that will produce blocks at the given X and Y
 	 * co-ordinates
 	 * 
-	 * @param initialX
-	 * @param initialY
+	 * @param initialX The initial x co-ordinate for blocks to appear
+	 * @param initialY The initial y co-ordinate for blocks to appear
+	 * @throws SlickException If cannot find block images
 	 */
-	public BlockFactory(double initialX, double initialY) {
-		this.initialX = initialX;
-		this.initialY = initialY;
+	public BlockFactory(BlockGrid grid) 
+			throws SlickException {
+		this.grid = grid;
 		
 		BlockComponentsFactory componentsFactory = new BlockComponentsFactory();
 		
@@ -41,6 +42,7 @@ public class BlockFactory {
 		iComponents = withRotations(componentsFactory.i());
 		
 		pieceGenerator = new Random();
+		imageFactory = new BlockImageFactory();
 	}
 	
 	/**
@@ -86,6 +88,19 @@ public class BlockFactory {
 			return o();
 		}
 	}
+	
+	/**
+	 * Helper method for generating a block from a list of components
+	 * 
+	 * @param components The list of components
+	 * @return The generated block
+	 */
+	private Block generateFromComponents(
+			ArrayList<BlockComponents> components) {
+		
+		return new Block(grid, components, 
+				imageFactory.random(components.size()), 0);
+	}
 
 	/**
 	 * Creates an S-block
@@ -93,7 +108,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block s() {
-		return new Block(initialX, initialY, sComponents, 0);
+		return generateFromComponents(sComponents);
 	}
 	
 	/**
@@ -102,7 +117,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block z() {
-		return new Block(initialX, initialY, zComponents, 0);
+		return generateFromComponents(zComponents);
 	}
 
 	/**
@@ -111,7 +126,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block o() {
-		return new Block(initialX, initialY, oComponents, 0);
+		return generateFromComponents(oComponents);
 	}
 	
 	/**
@@ -120,7 +135,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block i() {
-		return new Block(initialX, initialY, iComponents, 0);
+		return generateFromComponents(iComponents);
 	}
 	
 	/**
@@ -129,6 +144,6 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block l() {
-		return new Block(initialX, initialY, lComponents, 0);
+		return generateFromComponents(lComponents);
 	}
 }
