@@ -38,7 +38,8 @@ public class BlockFactory {
 		lComponents = withRotations(componentsFactory.l());
 		sComponents = withRotations(componentsFactory.s());
 		zComponents = withRotations(componentsFactory.z());
-		oComponents = withRotations(componentsFactory.o());
+		oComponents = new ArrayList<BlockComponents>();
+		oComponents.add(componentsFactory.o());
 		iComponents = withRotations(componentsFactory.i());
 		
 		pieceGenerator = new Random();

@@ -38,5 +38,6 @@ public class BlockGame extends StateBasedGame {
 	public void initStatesList(GameContainer gc) throws SlickException {
 		this.addState(new MainMenuState(State.MAIN_MENU.ordinal()));
 		this.addState(new GamePlayState(State.GAME_PLAY.ordinal()));
+		this.addState(new PauseState(State.PAUSE.ordinal()));
 	}
 }

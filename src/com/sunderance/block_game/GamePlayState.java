@@ -22,7 +22,7 @@ public class GamePlayState extends GameState {
 	private static final int GRID_TOP_LEFT_Y = 20;
 	private static final int BLOCK_SIZE = 32;
 	private static final int COLUMNS = 20;
-	private static final int ROWS = 80;
+	private static final int ROWS = 20;
 	
 	public GamePlayState(int stateID) {
 		super(stateID);
@@ -41,7 +41,7 @@ public class GamePlayState extends GameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics graphics)
 			throws SlickException {
-
+		currentBlock.render();
 		
 	}
 
@@ -52,7 +52,17 @@ public class GamePlayState extends GameState {
 		
 		// just quit for now
 		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-			gc.exit();
+			//gc.exit();
+		}
+		
+		if (input.isKeyPressed(Input.KEY_UP)) {
+			currentBlock.rotateLeft();
+		} else if (input.isKeyPressed(Input.KEY_DOWN)) {
+			currentBlock.rotateRight();
+		} else if (input.isKeyPressed(Input.KEY_LEFT)) {
+			currentBlock.moveLeft();
+		} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
+			currentBlock.moveRight();
 		}
 	}
 }

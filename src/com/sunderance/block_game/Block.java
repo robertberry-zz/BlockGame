@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Image;
 
 import com.sunderance.utils.Pair;
+import com.sunderance.utils.Zip2Iterable;
 
 import Jama.Matrix;
 
@@ -14,9 +15,7 @@ import Jama.Matrix;
  * @author Robert Berry
  * @version 0.1
  */
-public class Block {
-	private final static int SIZE = 32;
-	
+public class Block {	
 	private BlockGrid grid;
 	
 	private double x;
@@ -35,8 +34,8 @@ public class Block {
 	 * the block
 	 * 
 	 * @param grid The game grid
-	 * @param x The initial x co-ordinate
-	 * @param y The initial y co-ordinate
+	 * @param x The initial x position in the grid
+	 * @param y The initial y position in the grid
 	 * @param projections The rotation vectors
 	 * @param currentProjection The current rotation (0-3)
 	 */
@@ -78,11 +77,12 @@ public class Block {
 	public ArrayList<Matrix> getCoordinates() {
 		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
 		
-		double[][] center_coordinates = {{x}, {y}};
+		double[][] center_coordinates = {{getXCoordinate()}, 
+				{getYCoordinate()}};
 		Matrix center = new Matrix(center_coordinates);
 		
 		for (Matrix component : getComponents()) {
-			coordinates.add(center.plus(component.times(SIZE)));
+			coordinates.add(center.plus(component.times(grid.getBlockSize())));
 		}
 		
 		return coordinates;
@@ -110,7 +110,45 @@ public class Block {
 		}
 	}
 	
+	/**
+	 * The x co-ordinate of the centre piece on the screen
+	 * 
+	 * @return The x co-ordinate
+	 */
+	public double getXCoordinate() {
+		return grid.getX() + x * grid.getBlockSize();
+	}
+	
+	/**
+	 * The y co-ordinate of the centre piece on the screen
+	 * 
+	 * @return The y co-ordinate
+	 */
+	public double getYCoordinate() {
+		return grid.getBottomY() - y * grid.getBlockSize();
+	}
+	
+	/**
+	 * Renders the block
+	 */
 	public void render() {
-		
+		for (Pair<Matrix, Image> pair : 
+			new Zip2Iterable<Matrix, Image>(getCoordinates(), images)) {
+			Matrix m = pair.getFirst();
+			Image image = pair.getSecond();
+			
+			double x = m.get(0, 0);
+			double y = m.get(1, 0);
+			
+			image.draw((float) x, (float) y);
+		}
+	}
+
+	public void moveLeft() {
+		x -= 1;
+	}
+	
+	public void moveRight() {
+		x += 1;
 	}
 }

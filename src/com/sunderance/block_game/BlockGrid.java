@@ -33,6 +33,10 @@ public class BlockGrid {
 		this.grid = new int[columns][rows];
 	}
 	
+	public double getBottomY() {
+		return y + blockSize * rows;
+	}
+	
 	public int getStartX() {
 		return (int) Math.ceil((columns - 1) / 2);
 	}
