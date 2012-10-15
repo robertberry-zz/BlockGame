@@ -61,9 +61,27 @@ public class BlockComponents {
 		ArrayList<Matrix> new_components = new ArrayList<Matrix>();
 		
 		for (Matrix component : components) {
-			new_components.add(R.times(component));
+			Matrix rotated = R.times(component);
+			rotated = com.sunderance.utils.Matrix.round(rotated);
+			new_components.add(rotated);
 		}
 		
 		return new BlockComponents(new_components);
+	}
+	
+	/**
+	 * Helper method for creating BlockComponents from an array of vectors
+	 * 
+	 * @param vectors The vectors
+	 * @return The components
+	 */
+	public static BlockComponents fromVectors(double[][][] vectors) {
+		ArrayList<Matrix> components = new ArrayList<Matrix>();
+		
+		for (double[][] vector : vectors) {
+			components.add(new Matrix(vector));
+		}
+		
+		return new BlockComponents(components);
 	}
 }

@@ -1,9 +1,5 @@
 package com.sunderance.block_game;
 
-import java.util.ArrayList;
-
-import Jama.Matrix;
-
 /**
  * Factory with templates for creating the various block types
  * 
@@ -11,22 +7,6 @@ import Jama.Matrix;
  * @version 0.1
  */
 public class BlockComponentsFactory {
-	/**
-	 * Helper method for creating BlockComponents from an array of vectors
-	 * 
-	 * @param vectors The vectors
-	 * @return The components
-	 */
-	private BlockComponents fromVectors(double[][][] vectors) {
-		ArrayList<Matrix> components = new ArrayList<Matrix>();
-		
-		for (double[][] vector : vectors) {
-			components.add(new Matrix(vector));
-		}
-		
-		return new BlockComponents(components);
-	}
-
 	/**
 	 * Components for an L-block
 	 * 
@@ -39,7 +19,7 @@ public class BlockComponentsFactory {
 				{{0}, {-1}},
 				{{1}, {-1}}
 		};
-		return fromVectors(vectors);
+		return BlockComponents.fromVectors(vectors);
 	}
 	
 	/**
@@ -54,7 +34,7 @@ public class BlockComponentsFactory {
 				{{0}, {1}},
 				{{-1}, {1}}
 		};
-		return fromVectors(vectors);
+		return BlockComponents.fromVectors(vectors);
 	}
 	
 	/**
@@ -69,7 +49,7 @@ public class BlockComponentsFactory {
 				{{0}, {1}},
 				{{1}, {1}}
 		};
-		return fromVectors(vectors);
+		return BlockComponents.fromVectors(vectors);
 	}
 	
 	/**
@@ -84,7 +64,7 @@ public class BlockComponentsFactory {
 				{{0}, {1}},
 				{{1}, {1}}
 		};
-		return fromVectors(vectors);
+		return BlockComponents.fromVectors(vectors);
 	}
 	
 	/**
@@ -99,6 +79,6 @@ public class BlockComponentsFactory {
 				{{0}, {1}},
 				{{0}, {2}}
 		};
-		return fromVectors(vectors);
+		return BlockComponents.fromVectors(vectors);
 	}
 }
