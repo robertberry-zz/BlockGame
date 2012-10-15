@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import Jama.Matrix;
 
 /**
- * BlockComponents class.
+ * BlockComponents class. Represents the projections of component pieces of a 
+ * tetronimo for all four rotations. Separated from the block class so as to be 
+ * able to only construct the rotations once, then use the same calculations in 
+ * all subsequent rotations.
  * 
  * @author Robert Berry
  * @version 0.1

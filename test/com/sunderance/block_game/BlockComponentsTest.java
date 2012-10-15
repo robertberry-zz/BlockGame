@@ -30,21 +30,24 @@ public class BlockComponentsTest {
 				{{2}, {2}}
 		};
 		
-		ArrayList<Matrix> components = BlockComponents.fromVectors(vectors).getComponents();
+		ArrayList<Matrix> components = BlockComponents.fromVectors(vectors)
+				.getComponents();
 		
-		for (Pair<double[][], Matrix> pair : 
-				new Zip2Iterable<double[][], Matrix>(Arrays.asList(vectors), components)) {
-			double[][] vector = pair.getFirst();
-			Matrix c = pair.getSecond();
-			assertEquals(c.getColumnDimension(), 1);
-			assertEquals(c.getRowDimension(), 2);
-			assertArrayEquals(c.getArray(), vector);
-		}
+		assertComponentsEqualVectors(components, vectors);
 	}
 	
-	private void assertComponentsEqualVectors(ArrayList<Matrix> components, double[][][] vectors) {
+	/**
+	 * Helper method for checking components in a given list of matrices are
+	 * equal to the given list of matrices represent as arrays of doubles.
+	 * 
+	 * @param components The components
+	 * @param vectors The array components
+	 */
+	private void assertComponentsEqualVectors(ArrayList<Matrix> components, 
+			double[][][] vectors) {
 		for (Pair<double[][], Matrix> pair : 
-			new Zip2Iterable<double[][], Matrix>(Arrays.asList(vectors), components)) {
+				new Zip2Iterable<double[][], Matrix>(Arrays.asList(vectors), 
+						components)) {
 			double[][] vector = pair.getFirst();
 			Matrix c = pair.getSecond();
 			assertArrayEquals(c.getArray(), vector);
@@ -63,7 +66,8 @@ public class BlockComponentsTest {
 				{{3}, {1}}
 		};
 		
-		BlockComponents rotation = BlockComponents.fromVectors(vectors).getRotation();
+		BlockComponents rotation = BlockComponents.fromVectors(vectors)
+				.getRotation();
 		double[][][] rotated90 = {
 				{{0}, {0}},
 				{{0}, {1}},

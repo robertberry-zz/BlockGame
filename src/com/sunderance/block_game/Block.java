@@ -73,4 +73,26 @@ public class Block {
 		
 		return coordinates;
 	}
+	
+	/**
+	 * Rotates the piece 90 degrees to the right
+	 */
+	public void rotateRight() {
+		if (currentProjection == 0) {
+			currentProjection = projections.size() - 1;
+		} else {
+			currentProjection -= 1;
+		}
+	}
+	
+	/**
+	 * Rotates the piece 90 degrees to the left
+	 */
+	public void rotateLeft() {
+		if (currentProjection == projections.size() - 1) {
+			currentProjection = 0;
+		} else {
+			currentProjection += 1;
+		}
+	}
 }
