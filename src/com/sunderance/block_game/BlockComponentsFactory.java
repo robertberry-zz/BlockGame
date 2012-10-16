@@ -23,6 +23,21 @@ public class BlockComponentsFactory {
 	}
 	
 	/**
+	 * Components for a J-block
+	 * 
+	 * @return The components
+	 */
+	public BlockComponents j() {
+		double[][][] vectors = {
+				{{0}, {0}},
+				{{0}, {1}},
+				{{0}, {-1}},
+				{{-1}, {-1}}
+		};
+		return BlockComponents.fromVectors(vectors);
+	}
+	
+	/**
 	 * Components for an S-block
 	 * 
 	 * @return The components
@@ -78,6 +93,21 @@ public class BlockComponentsFactory {
 				{{0}, {-1}},
 				{{0}, {1}},
 				{{0}, {2}}
+		};
+		return BlockComponents.fromVectors(vectors);
+	}
+	
+	/**
+	 * Components for a T-block
+	 * 
+	 * @return The components
+	 */
+	public BlockComponents t() {
+		double[][][] vectors = {
+				{{0}, {0}},
+				{{-1}, {0}},
+				{{1}, {0}},
+				{{0}, {1}}
 		};
 		return BlockComponents.fromVectors(vectors);
 	}

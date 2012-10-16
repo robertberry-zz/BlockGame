@@ -12,11 +12,16 @@ import org.newdawn.slick.SlickException;
  * @version 0.1
  */
 public class BlockFactory {
+	private static final int N_TYPES = 7;
+	
 	private ArrayList<BlockComponents> lComponents;
 	private ArrayList<BlockComponents> sComponents;
 	private ArrayList<BlockComponents> zComponents;
 	private ArrayList<BlockComponents> oComponents;
 	private ArrayList<BlockComponents> iComponents;
+	private ArrayList<BlockComponents> jComponents;
+	private ArrayList<BlockComponents> tComponents;
+	
 	private BlockGrid grid;
 	private Random pieceGenerator;
 	private BlockImageFactory imageFactory;
@@ -35,11 +40,13 @@ public class BlockFactory {
 		
 		BlockComponentsFactory componentsFactory = new BlockComponentsFactory();
 		
-		lComponents = withRotations(componentsFactory.l());
-		sComponents = withRotations(componentsFactory.s());
-		zComponents = withRotations(componentsFactory.z());
-		oComponents = withRotations(componentsFactory.o());
-		iComponents = withRotations(componentsFactory.i());
+		jComponents = withRotations(componentsFactory.j(), 4);
+		tComponents = withRotations(componentsFactory.t(), 4);
+		lComponents = withRotations(componentsFactory.l(), 4);
+		sComponents = withRotations(componentsFactory.s(), 2);
+		zComponents = withRotations(componentsFactory.z(), 2);
+		oComponents = withRotations(componentsFactory.o(), 1);
+		iComponents = withRotations(componentsFactory.i(), 2);
 		
 		pieceGenerator = new Random();
 		imageFactory = new BlockImageFactory();
@@ -52,12 +59,15 @@ public class BlockFactory {
 	 * @param block The original components
 	 * @return The original with a 90-degree rotation
 	 */
-	private ArrayList<BlockComponents> withRotations(BlockComponents block) {
+	private ArrayList<BlockComponents> withRotations(BlockComponents block,
+			int n) {
 		ArrayList<BlockComponents> rotations = new ArrayList<BlockComponents>();
 
-		rotations.add(block);
-		block = block.getRotation();
-		rotations.add(block);
+		while (n > 0) {
+			rotations.add(block);
+			block = block.getRotation();
+			n--;
+		}
 		
 		return rotations;
 	}
@@ -68,7 +78,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block random() {
-		int type = pieceGenerator.nextInt(5);
+		int type = pieceGenerator.nextInt(N_TYPES);
 		
 		switch (type) {
 		case 0:
@@ -79,6 +89,10 @@ public class BlockFactory {
 			return l();
 		case 3:
 			return i();
+		case 4:
+			return j();
+		case 5:
+			return t();
 		default:
 			return o();
 		}
@@ -140,5 +154,23 @@ public class BlockFactory {
 	 */
 	public Block l() {
 		return generateFromComponents(lComponents);
+	}
+	
+	/**
+	 * Creates a J-block
+	 * 
+	 * @return The block
+	 */
+	public Block j() {
+		return generateFromComponents(jComponents);
+	}
+	
+	/**
+	 * Generates a T-block
+	 * 
+	 * @return The block
+	 */
+	public Block t() {
+		return generateFromComponents(tComponents);
 	}
 }
