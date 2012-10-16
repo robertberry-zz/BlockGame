@@ -27,6 +27,9 @@ public class BlockFactory {
 	private Image redBlock;
 	private Image yellowBlock;
 	private Image blueBlock;
+	private Image lightBlueBlock;
+	private Image purpleBlock;
+	private Image orangeBlock;
 	
 	private BlockGrid grid;
 	private Random pieceGenerator;
@@ -57,6 +60,9 @@ public class BlockFactory {
 		redBlock = new Image("res/blocks/red.png");
 		yellowBlock = new Image("res/blocks/yellow.png");
 		blueBlock = new Image("res/blocks/blue.png");
+		lightBlueBlock = new Image("res/blocks/light-blue.png");
+		purpleBlock = new Image("res/blocks/purple.png");
+		orangeBlock = new Image("res/blocks/orange.png");
 		
 		pieceGenerator = new Random();
 	}
@@ -118,7 +124,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block s() {
-		return makeBlock(sComponents, blueBlock);
+		return makeBlock(sComponents, orangeBlock);
 	}
 	
 	/**
@@ -127,7 +133,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block z() {
-		return makeBlock(zComponents, greenBlock);
+		return makeBlock(zComponents, redBlock);
 	}
 
 	/**
@@ -136,7 +142,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block o() {
-		return makeBlock(oComponents, redBlock);
+		return makeBlock(oComponents, purpleBlock);
 	}
 	
 	/**
@@ -145,7 +151,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block i() {
-		return makeBlock(iComponents, yellowBlock);
+		return makeBlock(iComponents, lightBlueBlock);
 	}
 	
 	/**
