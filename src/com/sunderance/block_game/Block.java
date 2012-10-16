@@ -67,19 +67,43 @@ public class Block {
 	}
 	
 	/**
-	 * Co-ordinates of the component pieces of the block
+	 * Co-ordinates of the component pieces of the block within the grid
+	 * 
+	 * @return The co-ordinates
+	 */
+	public ArrayList<Matrix> getGridCoordinates() {
+		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
+		
+		double[][] center_coordinates = {{x}, 
+				{y}};
+		Matrix center = new Matrix(center_coordinates);
+		
+		for (Matrix component : getComponents()) {
+			coordinates.add(center.plus(component));
+		}
+		
+		return coordinates;
+	}
+	
+	/**
+	 * Co-ordinates of the component pieces of the block on the screen
 	 * 
 	 * @return The co-ordinates
 	 */
 	public ArrayList<Matrix> getCoordinates() {
 		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
 		
-		double[][] center_coordinates = {{getXCoordinate()}, 
-				{getYCoordinate()}};
-		Matrix center = new Matrix(center_coordinates);
+		double[][] top_left_coordinates = {{grid.getX()}, 
+				{grid.getY()}};
+		Matrix top_left = new Matrix(top_left_coordinates);
 		
-		for (Matrix component : getComponents()) {
-			coordinates.add(center.plus(component.times(grid.getBlockSize())));
+		double[][] a_components = {{0}, {grid.getColumns()}};
+		Matrix A = new Matrix(a_components);
+
+		for (Matrix component : getGridCoordinates()) {
+			component.set(1, 0, -component.get(1, 0));
+			coordinates.add(
+				top_left.plus(A.plus(component).times(grid.getBlockSize())));
 		}
 		
 		return coordinates;
@@ -108,24 +132,6 @@ public class Block {
 	}
 	
 	/**
-	 * The x co-ordinate of the centre piece on the screen
-	 * 
-	 * @return The x co-ordinate
-	 */
-	public double getXCoordinate() {
-		return grid.getX() + x * grid.getBlockSize();
-	}
-	
-	/**
-	 * The y co-ordinate of the centre piece on the screen
-	 * 
-	 * @return The y co-ordinate
-	 */
-	public double getYCoordinate() {
-		return grid.getBottomY() - y * grid.getBlockSize();
-	}
-	
-	/**
 	 * Renders the block
 	 */
 	public void render() {
@@ -136,12 +142,30 @@ public class Block {
 		}
 	}
 
+	public boolean canMoveLeft() {
+		return x > 0;
+	}
+	
+	public boolean canMoveRight() {
+		return x < grid.getRows();
+	}
+	
+	/**
+	 * Moves the piece left
+	 */
 	public void moveLeft() {
 		x -= 1;
 	}
 	
+	/**
+	 * Moves the piece right
+	 */
 	public void moveRight() {
 		x += 1;
+	}
+	
+	public boolean canMoveDown() {
+		return false;
 	}
 	
 	public void moveDown() {

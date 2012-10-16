@@ -24,7 +24,7 @@ public class GamePlayState extends GameState {
 	private static final int GRID_TOP_LEFT_Y = 20;
 	private static final int BLOCK_SIZE = 32;
 	private static final int COLUMNS = 20;
-	private static final int ROWS = 20;
+	private static final int ROWS = 18;
 	
 	private int framesSinceDrop;
 	
@@ -65,9 +65,13 @@ public class GamePlayState extends GameState {
 		} else if (input.isKeyPressed(Input.KEY_DOWN)) {
 			currentBlock.rotateRight();
 		} else if (input.isKeyPressed(Input.KEY_LEFT)) {
-			currentBlock.moveLeft();
+			if (currentBlock.canMoveLeft()) {
+				currentBlock.moveLeft();
+			}
 		} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
-			currentBlock.moveRight();
+			if (currentBlock.canMoveRight()) {
+				currentBlock.moveRight();
+			}
 		} else if (input.isKeyPressed(Input.KEY_SPACE)) {
 			currentBlock = blockFactory.random();
 		}

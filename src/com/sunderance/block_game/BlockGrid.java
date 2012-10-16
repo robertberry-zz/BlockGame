@@ -20,6 +20,8 @@ public class BlockGrid {
 	/**
 	 * Creates a BlockGrid with the given number of columns and rows
 	 * 
+	 * @param x The x co-ordinate of the bottom left of the grid
+	 * @param y The y co-ordinate of the bottom left of the grid
 	 * @param columns The number of columns
 	 * @param rows The number of rows
 	 */
@@ -33,6 +35,11 @@ public class BlockGrid {
 		this.grid = new int[columns][rows];
 	}
 	
+	/**
+	 * Returns the y co-ordinate of the top of the grid
+	 * 
+	 * @return The co-ordinate
+	 */
 	public double getBottomY() {
 		return y + blockSize * rows;
 	}
@@ -120,5 +127,13 @@ public class BlockGrid {
 	 */
 	public int getBlockSize() {
 		return blockSize;
+	}
+
+	public int getColumns() {
+		return columns;
+	}
+
+	public int getRows() {
+		return rows;
 	}
 }
