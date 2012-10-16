@@ -3,6 +3,7 @@ package com.sunderance.block_game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -98,17 +99,9 @@ public class BlockFactory {
 		}
 	}
 	
-	/**
-	 * Helper method for generating a block from a list of components
-	 * 
-	 * @param components The list of components
-	 * @return The generated block
-	 */
-	private Block generateFromComponents(
-			ArrayList<BlockComponents> components) {
-		
-		return new Block(grid, components, 
-				imageFactory.random(components.get(0).getComponents().size()), 0);
+	private Block makeBlock(ArrayList<BlockComponents> components, 
+			Image image) {
+		return new Block(grid, components, image, 0);
 	}
 
 	/**
@@ -117,7 +110,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block s() {
-		return generateFromComponents(sComponents);
+		return makeBlock(sComponents, imageFactory.blue());
 	}
 	
 	/**
@@ -126,7 +119,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block z() {
-		return generateFromComponents(zComponents);
+		return makeBlock(zComponents, imageFactory.green());
 	}
 
 	/**
@@ -135,7 +128,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block o() {
-		return generateFromComponents(oComponents);
+		return makeBlock(oComponents, imageFactory.red());
 	}
 	
 	/**
@@ -144,7 +137,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block i() {
-		return generateFromComponents(iComponents);
+		return makeBlock(iComponents, imageFactory.yellow());
 	}
 	
 	/**
@@ -153,7 +146,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block l() {
-		return generateFromComponents(lComponents);
+		return makeBlock(lComponents, imageFactory.blue());
 	}
 	
 	/**
@@ -162,7 +155,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block j() {
-		return generateFromComponents(jComponents);
+		return makeBlock(jComponents, imageFactory.green());
 	}
 	
 	/**
@@ -171,6 +164,6 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block t() {
-		return generateFromComponents(tComponents);
+		return makeBlock(tComponents, imageFactory.yellow());
 	}
 }

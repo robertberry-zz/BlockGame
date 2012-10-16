@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 
-import com.sunderance.utils.Pair;
-import com.sunderance.utils.Zip2Iterable;
-
 import Jama.Matrix;
 
 /**
@@ -24,7 +21,7 @@ public class Block {
 	
 	private ArrayList<BlockComponents> projections;
 	
-	private ArrayList<Image> images;
+	private Image image;
 	
 	private int currentProjection;
 
@@ -41,13 +38,13 @@ public class Block {
 	 */
 	public Block(BlockGrid grid,
 			ArrayList<BlockComponents> projections,
-			ArrayList<Image> images, int currentProjection) {
+			Image image, int currentProjection) {
 		super();
 		this.grid = grid;
 		this.x = grid.getStartX();
 		this.y = grid.getStartY();
 		this.projections = projections;
-		this.images = images;
+		this.image = image;
 		this.currentProjection = currentProjection;
 	}
 	
@@ -132,14 +129,9 @@ public class Block {
 	 * Renders the block
 	 */
 	public void render() {
-		for (Pair<Matrix, Image> pair : 
-			new Zip2Iterable<Matrix, Image>(getCoordinates(), images)) {
-			Matrix m = pair.getFirst();
-			Image image = pair.getSecond();
-			
+		for (Matrix m : getCoordinates()) {
 			double x = m.get(0, 0);
 			double y = m.get(1, 0);
-			
 			image.draw((float) x, (float) y);
 		}
 	}
