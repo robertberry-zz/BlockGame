@@ -23,9 +23,13 @@ public class BlockFactory {
 	private ArrayList<BlockComponents> jComponents;
 	private ArrayList<BlockComponents> tComponents;
 	
+	private Image greenBlock;
+	private Image redBlock;
+	private Image yellowBlock;
+	private Image blueBlock;
+	
 	private BlockGrid grid;
 	private Random pieceGenerator;
-	private BlockImageFactory imageFactory;
 	
 	/**
 	 * Creates a BlockFactory that will produce blocks at the given X and Y
@@ -49,8 +53,12 @@ public class BlockFactory {
 		oComponents = withRotations(componentsFactory.o(), 1);
 		iComponents = withRotations(componentsFactory.i(), 2);
 		
+		greenBlock = new Image("res/blocks/green.png");
+		redBlock = new Image("res/blocks/red.png");
+		yellowBlock = new Image("res/blocks/yellow.png");
+		blueBlock = new Image("res/blocks/blue.png");
+		
 		pieceGenerator = new Random();
-		imageFactory = new BlockImageFactory();
 	}
 	
 	/**
@@ -110,7 +118,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block s() {
-		return makeBlock(sComponents, imageFactory.blue());
+		return makeBlock(sComponents, blueBlock);
 	}
 	
 	/**
@@ -119,7 +127,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block z() {
-		return makeBlock(zComponents, imageFactory.green());
+		return makeBlock(zComponents, greenBlock);
 	}
 
 	/**
@@ -128,7 +136,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block o() {
-		return makeBlock(oComponents, imageFactory.red());
+		return makeBlock(oComponents, redBlock);
 	}
 	
 	/**
@@ -137,7 +145,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block i() {
-		return makeBlock(iComponents, imageFactory.yellow());
+		return makeBlock(iComponents, yellowBlock);
 	}
 	
 	/**
@@ -146,7 +154,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block l() {
-		return makeBlock(lComponents, imageFactory.blue());
+		return makeBlock(lComponents, blueBlock);
 	}
 	
 	/**
@@ -155,7 +163,7 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block j() {
-		return makeBlock(jComponents, imageFactory.green());
+		return makeBlock(jComponents, greenBlock);
 	}
 	
 	/**
@@ -164,6 +172,6 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block t() {
-		return makeBlock(tComponents, imageFactory.yellow());
+		return makeBlock(tComponents, yellowBlock);
 	}
 }
