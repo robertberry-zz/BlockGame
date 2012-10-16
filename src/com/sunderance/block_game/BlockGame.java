@@ -9,6 +9,7 @@ public class BlockGame extends StateBasedGame {
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 600;
 	private static final boolean FULL_SCREEN = false;
+	private static final int FRAMES_PER_SECOND = 60;
 	
 	enum State {
 		MAIN_MENU, GAME_PLAY, PAUSE
@@ -28,6 +29,7 @@ public class BlockGame extends StateBasedGame {
          AppGameContainer app = new AppGameContainer(new BlockGame());
          
          app.setDisplayMode(WIDTH, HEIGHT, FULL_SCREEN);
+         app.setTargetFrameRate(FRAMES_PER_SECOND);
          app.start();
     }
 	

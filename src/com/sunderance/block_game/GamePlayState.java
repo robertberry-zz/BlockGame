@@ -18,14 +18,19 @@ public class GamePlayState extends GameState {
 	Block currentBlock;
 	Block nextBlock;
 	
+	private static final int FRAMES_PER_DROP = 30;
+	
 	private static final int GRID_TOP_LEFT_X = 20;
 	private static final int GRID_TOP_LEFT_Y = 20;
 	private static final int BLOCK_SIZE = 32;
 	private static final int COLUMNS = 20;
 	private static final int ROWS = 20;
 	
+	private int framesSinceDrop;
+	
 	public GamePlayState(int stateID) {
 		super(stateID);
+		framesSinceDrop = FRAMES_PER_DROP;
 	}
 	
 	@Override
@@ -65,6 +70,13 @@ public class GamePlayState extends GameState {
 			currentBlock.moveRight();
 		} else if (input.isKeyPressed(Input.KEY_SPACE)) {
 			currentBlock = blockFactory.random();
+		}
+		
+		if (framesSinceDrop == FRAMES_PER_DROP) {
+			currentBlock.moveDown();
+			framesSinceDrop = 0;
+		} else {
+			framesSinceDrop += 1;
 		}
 	}
 }

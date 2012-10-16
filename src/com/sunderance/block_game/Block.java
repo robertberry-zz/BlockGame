@@ -143,4 +143,8 @@ public class Block {
 	public void moveRight() {
 		x += 1;
 	}
+	
+	public void moveDown() {
+		y -= 1;
+	}
 }
