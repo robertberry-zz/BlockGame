@@ -115,7 +115,8 @@ public class BlockFactory {
 	
 	private Block makeBlock(ArrayList<BlockComponents> components, 
 			Image image) {
-		return new Block(grid, components, image, 0);
+		return new Block(grid, grid.getStartX(), grid.getStartY(), 
+				components, image, 0);
 	}
 
 	/**

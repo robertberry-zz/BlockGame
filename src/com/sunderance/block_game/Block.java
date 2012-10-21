@@ -15,9 +15,9 @@ import Jama.Matrix;
 public class Block {	
 	private BlockGrid grid;
 	
-	private double x;
+	private int x;
 	
-	private double y;
+	private int y;
 	
 	private ArrayList<BlockComponents> projections;
 	
@@ -34,15 +34,16 @@ public class Block {
 	 * @param x The initial x position in the grid
 	 * @param y The initial y position in the grid
 	 * @param projections The rotation vectors
+	 * @param image The block image
 	 * @param currentProjection The current rotation (0-3)
 	 */
-	public Block(BlockGrid grid,
+	public Block(BlockGrid grid, int x, int y,
 			ArrayList<BlockComponents> projections,
 			Image image, int currentProjection) {
 		super();
 		this.grid = grid;
-		this.x = grid.getStartX();
-		this.y = grid.getStartY();
+		this.x = x;
+		this.y = y;
 		this.projections = projections;
 		this.image = image;
 		this.currentProjection = currentProjection;
@@ -110,25 +111,50 @@ public class Block {
 	}
 	
 	/**
-	 * Rotates the piece 90 degrees to the right
+	 * The left rotation of this block
+	 * 
+	 * @return The left rotation
 	 */
-	public void rotateRight() {
-		if (currentProjection == 0) {
-			currentProjection = projections.size() - 1;
-		} else {
-			currentProjection -= 1;
-		}
+	public Block getLeftRotation() {
+		return new Block(grid, x, y, projections, image, 
+				(currentProjection + 1) % projections.size());
 	}
 	
 	/**
-	 * Rotates the piece 90 degrees to the left
+	 * The right rotation of this block
+	 * 
+	 * @return The right rotation
 	 */
-	public void rotateLeft() {
-		if (currentProjection == projections.size() - 1) {
-			currentProjection = 0;
-		} else {
-			currentProjection += 1;
-		}
+	public Block getRightRotation() {
+		return new Block(grid, x, y, projections, image,
+				(currentProjection - 1) % projections.size());
+	}
+	
+	/**
+	 * The left movement of this block
+	 * 
+	 * @return The left movement
+	 */
+	public Block getLeftMovement() {
+		return new Block(grid, x - 1, y, projections, image, currentProjection);
+	}
+	
+	/**
+	 * The right movement of this block
+	 * 
+	 * @return The right movement
+	 */
+	public Block getRightMovement() {
+		return new Block(grid, x + 1, y, projections, image, currentProjection);
+	}
+	
+	/**
+	 * The down movement of this block
+	 * 
+	 * @return The down movement
+	 */
+	public Block getDownMovement() {
+		return new Block(grid, x, y - 1, projections, image, currentProjection);
 	}
 	
 	/**
@@ -141,64 +167,5 @@ public class Block {
 			image.draw((float) x, (float) y);
 		}
 	}
-	
-	/**
-	 * The x co-ordinate of the left-most component
-	 * 
-	 * @return The co-ordinate
-	 */
-	private int getLeft() {
-		return (int) com.sunderance.utils.Matrix
-				.minByIndex(getGridCoordinates(), 0, 0).get(0, 0);
-	}
-	
-	/**
-	 * The x co-ordinate of the right-most component
-	 * 
-	 * @return The co-ordinate
-	 */
-	private int getRight() {
-		return (int) com.sunderance.utils.Matrix
-				.maxByIndex(getGridCoordinates(), 0, 0).get(0, 0);
-	}
 
-	/**
-	 * Whether the piece is able to move left
-	 * 
-	 * @return Whether able to move left
-	 */
-	public boolean canMoveLeft() {
-		return getLeft() > 0;
-	}
-	
-	/**
-	 * Whether the piece is able to move right
-	 * 
-	 * @return Whether able to move right
-	 */
-	public boolean canMoveRight() {
-		return getRight() < grid.getColumns();
-	}
-	
-	/**
-	 * Moves the piece left
-	 */
-	public void moveLeft() {
-		x -= 1;
-	}
-	
-	/**
-	 * Moves the piece right
-	 */
-	public void moveRight() {
-		x += 1;
-	}
-	
-	public boolean canMoveDown() {
-		return false;
-	}
-	
-	public void moveDown() {
-		y -= 1;
-	}
 }

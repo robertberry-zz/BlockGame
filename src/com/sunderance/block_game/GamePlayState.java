@@ -61,23 +61,19 @@ public class GamePlayState extends GameState {
 		}
 		
 		if (input.isKeyPressed(Input.KEY_UP)) {
-			currentBlock.rotateLeft();
+			currentBlock = currentBlock.getLeftRotation();
 		} else if (input.isKeyPressed(Input.KEY_DOWN)) {
-			currentBlock.rotateRight();
+			currentBlock = currentBlock.getRightRotation();
 		} else if (input.isKeyPressed(Input.KEY_LEFT)) {
-			if (currentBlock.canMoveLeft()) {
-				currentBlock.moveLeft();
-			}
+			currentBlock = currentBlock.getLeftMovement();
 		} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
-			if (currentBlock.canMoveRight()) {
-				currentBlock.moveRight();
-			}
+			currentBlock = currentBlock.getRightMovement();
 		} else if (input.isKeyPressed(Input.KEY_SPACE)) {
 			currentBlock = blockFactory.random();
 		}
 		
 		if (framesSinceDrop == FRAMES_PER_DROP) {
-			currentBlock.moveDown();
+			currentBlock = currentBlock.getDownMovement();
 			framesSinceDrop = 0;
 		} else {
 			framesSinceDrop += 1;
