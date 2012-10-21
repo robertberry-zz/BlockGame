@@ -53,8 +53,7 @@ public class BlockGrid {
 	}
 	
 	/**
-	 * Helper method - throws an error if x and y are outside the bounds of the
-	 * grid
+	 * Throws an error if x and y are outside the bounds of the grid
 	 * 
 	 * @param x The x co-ordinate
 	 * @param y The y co-ordinate

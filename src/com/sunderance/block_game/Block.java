@@ -141,13 +141,43 @@ public class Block {
 			image.draw((float) x, (float) y);
 		}
 	}
-
-	public boolean canMoveLeft() {
-		return x > 0;
+	
+	/**
+	 * The x co-ordinate of the left-most component
+	 * 
+	 * @return The co-ordinate
+	 */
+	private int getLeft() {
+		return (int) com.sunderance.utils.Matrix
+				.minByIndex(getGridCoordinates(), 0, 0).get(0, 0);
 	}
 	
+	/**
+	 * The x co-ordinate of the right-most component
+	 * 
+	 * @return The co-ordinate
+	 */
+	private int getRight() {
+		return (int) com.sunderance.utils.Matrix
+				.maxByIndex(getGridCoordinates(), 0, 0).get(0, 0);
+	}
+
+	/**
+	 * Whether the piece is able to move left
+	 * 
+	 * @return Whether able to move left
+	 */
+	public boolean canMoveLeft() {
+		return getLeft() > 0;
+	}
+	
+	/**
+	 * Whether the piece is able to move right
+	 * 
+	 * @return Whether able to move right
+	 */
 	public boolean canMoveRight() {
-		return x < grid.getRows();
+		return getRight() < grid.getColumns();
 	}
 	
 	/**
