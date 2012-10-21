@@ -49,6 +49,29 @@ public class GamePlayState extends GameState {
 		currentBlock.render();
 		
 	}
+	
+	/**
+	 * Given the user's input, returns a movement for the block, or null if
+	 * no movement is made
+	 * 
+	 * @param input The input object
+	 * @return The movement
+	 */
+	public Block getMovement(Input input) {
+		Block movement = null;
+		
+		if (input.isKeyPressed(Input.KEY_UP)) {
+			movement = currentBlock.getLeftRotation();
+		} else if (input.isKeyPressed(Input.KEY_DOWN)) {
+			movement = currentBlock.getRightRotation();
+		} else if (input.isKeyPressed(Input.KEY_LEFT)) {
+			movement = currentBlock.getLeftMovement();
+		} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
+			movement = currentBlock.getRightMovement();
+		}
+		
+		return movement;
+	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
@@ -60,16 +83,14 @@ public class GamePlayState extends GameState {
 			//gc.exit();
 		}
 		
-		if (input.isKeyPressed(Input.KEY_UP)) {
-			currentBlock = currentBlock.getLeftRotation();
-		} else if (input.isKeyPressed(Input.KEY_DOWN)) {
-			currentBlock = currentBlock.getRightRotation();
-		} else if (input.isKeyPressed(Input.KEY_LEFT)) {
-			currentBlock = currentBlock.getLeftMovement();
-		} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
-			currentBlock = currentBlock.getRightMovement();
-		} else if (input.isKeyPressed(Input.KEY_SPACE)) {
+		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			currentBlock = blockFactory.random();
+		}
+		
+		Block movement = getMovement(input);
+		
+		if (movement != null && grid.hasSpaceForBlock(movement)) {
+			currentBlock = movement;
 		}
 		
 		if (framesSinceDrop == FRAMES_PER_DROP) {

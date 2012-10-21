@@ -1,5 +1,7 @@
 package com.sunderance.block_game;
 
+import Jama.Matrix;
+
 
 /**
  * The game grid
@@ -44,10 +46,20 @@ public class BlockGrid {
 		return y + blockSize * rows;
 	}
 	
+	/**
+	 * The initial x position for a block
+	 * 
+	 * @return The x position
+	 */
 	public int getStartX() {
 		return (int) Math.ceil((columns - 1) / 2);
 	}
 	
+	/**
+	 * The initial y position for a block
+	 * 
+	 * @return The y position
+	 */
 	public int getStartY() {
 		return rows - 1;
 	}
@@ -128,11 +140,40 @@ public class BlockGrid {
 		return blockSize;
 	}
 
+	/**
+	 * How many columns in the grid
+	 * 
+	 * @return Number of columns
+	 */
 	public int getColumns() {
 		return columns;
 	}
 
+	/**
+	 * How many rows in grid
+	 * 
+	 * @return Number of rows
+	 */
 	public int getRows() {
 		return rows;
+	}
+
+	/**
+	 * Whether space for block in grid
+	 * 
+	 * @param movement The block
+	 * @return Whether space
+	 */
+	public boolean hasSpaceForBlock(Block movement) {
+		for (Matrix coordinate : movement.getGridCoordinates()) {
+			double x = coordinate.get(0, 0);
+			double y = coordinate.get(1, 0);
+			
+			if (x < 0 || x >= columns || y >= rows || get((int) x, 
+					(int) y) != 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
