@@ -93,18 +93,11 @@ public class Block {
 	 */
 	public ArrayList<Matrix> getCoordinates() {
 		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
-		
-		double[][] top_left_coordinates = {{grid.getX()}, 
-				{grid.getY()}};
-		Matrix top_left = new Matrix(top_left_coordinates);
-		
-		double[][] a_components = {{0}, {grid.getColumns()}};
-		Matrix A = new Matrix(a_components);
 
 		for (Matrix component : getGridCoordinates()) {
-			component.set(1, 0, -component.get(1, 0));
-			coordinates.add(
-				top_left.plus(A.plus(component).times(grid.getBlockSize())));
+			double[][] coord = {{grid.translateX((int) component.get(0, 0))}, 
+					{grid.translateY((int) component.get(1, 0))}};
+			coordinates.add(new Matrix(coord));
 		}
 		
 		return coordinates;
@@ -126,10 +119,24 @@ public class Block {
 	 * @return The right rotation
 	 */
 	public Block getRightRotation() {
+		int newProjection = currentProjection - 1;
+		if (newProjection < 0) {
+			newProjection += projections.size();
+		}
+		
 		return new Block(grid, x, y, projections, image,
-				(currentProjection - 1) % projections.size());
+				newProjection);
 	}
 	
+	/**
+	 * The block's image
+	 * 
+	 * @return The image
+	 */
+	public Image getImage() {
+		return image;
+	}
+
 	/**
 	 * The left movement of this block
 	 * 

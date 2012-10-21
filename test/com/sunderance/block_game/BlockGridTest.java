@@ -6,6 +6,8 @@ package com.sunderance.block_game;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  * Tests for BlockGrid
@@ -21,8 +23,10 @@ public class BlockGridTest extends TestCase {
 	private static final int ROWS = 3;
 	private static final int COLS = 3;
 	private BlockGrid grid;
+	private Image testImage;
 	
-	protected void setUp() {
+	protected void setUp() throws SlickException {
+		testImage = new Image("res/blocks/blue.png");
 		grid = new BlockGrid(X, Y, SIZE, ROWS, COLS);
 	}
 
@@ -58,10 +62,10 @@ public class BlockGridTest extends TestCase {
 	public void testSet() {
 		for (int x = 0; x < COLS; x++) {
 			for (int y = 0; y < ROWS; y++) {
-				grid.set(x, y, 1);
-				assertEquals(grid.get(x, y), 1);
-				grid.set(x, y, 0);
-				assertEquals(grid.get(x, y), 0);
+				grid.set(x, y, testImage);
+				assertEquals(grid.get(x, y), testImage);
+				grid.set(x, y, null);
+				assertEquals(grid.get(x, y), null);
 			}
 		}
 	}
@@ -74,13 +78,13 @@ public class BlockGridTest extends TestCase {
 	public void testClear() {
 		for (int x = 0; x < COLS; x++) {
 			for (int y = 0; y < ROWS; y++) {
-				grid.set(x, y, 1);
+				grid.set(x, y, testImage);
 			}
 		}
 		grid.clear();
 		for (int x = 0; x < COLS; x++) {
 			for (int y = 0; y < ROWS; y++) {
-				assertEquals(grid.get(x, y), 0);
+				assertEquals(grid.get(x, y), null);
 			}
 		}
 	}

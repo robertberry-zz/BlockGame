@@ -23,7 +23,7 @@ public class GamePlayState extends GameState {
 	private static final int GRID_TOP_LEFT_X = 20;
 	private static final int GRID_TOP_LEFT_Y = 20;
 	private static final int BLOCK_SIZE = 32;
-	private static final int COLUMNS = 20;
+	private static final int COLUMNS = 12;
 	private static final int ROWS = 18;
 	
 	private int framesSinceDrop;
@@ -46,8 +46,10 @@ public class GamePlayState extends GameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics graphics)
 			throws SlickException {
+		// pointless and inefficient to render grid every time
+		// todo: add logic to only render grid when it changes
+		grid.render();
 		currentBlock.render();
-		
 	}
 	
 	/**
@@ -73,6 +75,10 @@ public class GamePlayState extends GameState {
 		return movement;
 	}
 
+	private void newBlock() {
+		currentBlock = blockFactory.random();
+	}
+	
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
@@ -84,7 +90,7 @@ public class GamePlayState extends GameState {
 		}
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
-			currentBlock = blockFactory.random();
+			newBlock();
 		}
 		
 		Block movement = getMovement(input);
@@ -94,7 +100,15 @@ public class GamePlayState extends GameState {
 		}
 		
 		if (framesSinceDrop == FRAMES_PER_DROP) {
-			currentBlock = currentBlock.getDownMovement();
+			Block drop = currentBlock.getDownMovement();
+			
+			if (grid.hasSpaceForBlock(drop)) {
+				currentBlock = drop;
+			} else {
+				grid.consume(currentBlock);
+				newBlock();
+			}
+			
 			framesSinceDrop = 0;
 		} else {
 			framesSinceDrop += 1;

@@ -1,5 +1,7 @@
 package com.sunderance.block_game;
 
+import org.newdawn.slick.Image;
+
 import Jama.Matrix;
 
 
@@ -17,7 +19,7 @@ public class BlockGrid {
 
 	private int rows;
 	
-	private int[][] grid;
+	private Image[][] grid;
 	
 	/**
 	 * Creates a BlockGrid with the given number of columns and rows
@@ -34,7 +36,7 @@ public class BlockGrid {
 		this.blockSize = blockSize;
 		this.columns = columns;
 		this.rows = rows;
-		this.grid = new int[columns][rows];
+		this.grid = new Image[columns][rows];
 	}
 	
 	/**
@@ -85,7 +87,7 @@ public class BlockGrid {
 	 * @param y The y co-ordinate
 	 * @return The value
 	 */
-	public int get(int x, int y) {
+	public Image get(int x, int y) {
 		assertValidCoordinates(x, y);
 		return this.grid[x][y];
 	}
@@ -97,7 +99,7 @@ public class BlockGrid {
 	 * @param y The y co-ordinate
 	 * @param val The new value
 	 */
-	public void set(int x, int y, int val) {
+	public void set(int x, int y, Image val) {
 		assertValidCoordinates(x, y);
 		this.grid[x][y] = val;
 	}
@@ -108,7 +110,7 @@ public class BlockGrid {
 	public void clear() {
 		for (int x = 0; x < columns; x++) {
 			for (int y = 0; y < rows; y++) {
-				set(x, y, 0);
+				set(x, y, null);
 			}
 		}
 	}
@@ -169,11 +171,49 @@ public class BlockGrid {
 			double x = coordinate.get(0, 0);
 			double y = coordinate.get(1, 0);
 			
-			if (x < 0 || x >= columns || y >= rows || get((int) x, 
-					(int) y) != 0) {
+			if (x < 0 || x >= columns) {
+				return false;
+			}
+			
+			if (y >= rows) {
+				continue;
+			}
+			
+			if (y <= 0 || get((int) x, (int) y) != null) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Adds the block's images to the grid
+	 * 
+	 * @param block The block
+	 */
+	public void consume(Block block) {
+		for (Matrix coordinate : block.getGridCoordinates()) {
+			set((int) coordinate.get(0, 0), (int) coordinate.get(1, 0), 
+					block.getImage());
+		}
+	}
+	
+	public float translateX(int x) {		
+		return this.x + x * blockSize;
+	}
+	
+	public float translateY(int y) {
+		return (float) getBottomY() - y * blockSize;
+	}
+	
+	public void render() {
+		for (int x = 0; x < columns; x++) {
+			for (int y = 0; y < rows; y++) {
+				Image block = get(x, y);
+				if (block != null) {
+					block.draw(translateX(x), translateY(y));
+				}
+			}
+		}
 	}
 }
