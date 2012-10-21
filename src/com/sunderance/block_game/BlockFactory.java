@@ -1,7 +1,8 @@
 package com.sunderance.block_game;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
+import java.util.LinkedList;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -32,7 +33,8 @@ public class BlockFactory {
 	private Image orangeBlock;
 	
 	private BlockGrid grid;
-	private Random pieceGenerator;
+	
+	private LinkedList<Integer> pieceBag;
 	
 	/**
 	 * Creates a BlockFactory that will produce blocks at the given X and Y
@@ -64,7 +66,20 @@ public class BlockFactory {
 		purpleBlock = new Image("res/blocks/purple.png");
 		orangeBlock = new Image("res/blocks/orange.png");
 		
-		pieceGenerator = new Random();
+		createPieceBag();
+	}
+	
+	/**
+	 * Creates a new piece bag for randomly generating blocks
+	 */
+	private void createPieceBag() {
+		pieceBag = new LinkedList<Integer>();
+		
+		for (int i = 0; i < N_TYPES; i++) {
+			pieceBag.add(i);
+		}
+		
+		Collections.shuffle(pieceBag);
 	}
 	
 	/**
@@ -93,7 +108,10 @@ public class BlockFactory {
 	 * @return The block
 	 */
 	public Block random() {
-		int type = pieceGenerator.nextInt(N_TYPES);
+		if (pieceBag.isEmpty()) {
+			createPieceBag();
+		}
+		int type = pieceBag.removeFirst();
 		
 		switch (type) {
 		case 0:

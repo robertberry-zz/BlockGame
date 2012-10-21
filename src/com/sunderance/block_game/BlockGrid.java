@@ -198,14 +198,31 @@ public class BlockGrid {
 		}
 	}
 	
+	/**
+	 * Given an x co-ordinate within the grid, returns the x co-ordinate on 
+	 * the screen
+	 * 
+	 * @param x The co-ordinate within the grid
+	 * @return The screen co-ordinate
+	 */
 	public float translateX(int x) {		
 		return this.x + x * blockSize;
 	}
 	
+	/**
+	 * Given a y co-ordinate in the grid, returns the y co-ordinate on the
+	 * screen
+	 * 
+	 * @param y The co-ordinate within the grid
+	 * @return The screen co-ordinate
+	 */
 	public float translateY(int y) {
 		return (float) getBottomY() - y * blockSize;
 	}
 	
+	/**
+	 * Renders the blocks stacked in the grid
+	 */
 	public void render() {
 		for (int x = 0; x < columns; x++) {
 			for (int y = 0; y < rows; y++) {

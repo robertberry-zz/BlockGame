@@ -7,7 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class BlockGame extends StateBasedGame {
 	private static final int WIDTH = 800;
-	private static final int HEIGHT = 600;
+	private static final int HEIGHT = 680;
 	private static final boolean FULL_SCREEN = false;
 	private static final int FRAMES_PER_SECOND = 60;
 	

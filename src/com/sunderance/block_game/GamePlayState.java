@@ -21,10 +21,10 @@ public class GamePlayState extends GameState {
 	private static final int FRAMES_PER_DROP = 30;
 	
 	private static final int GRID_TOP_LEFT_X = 20;
-	private static final int GRID_TOP_LEFT_Y = 20;
+	private static final int GRID_TOP_LEFT_Y = -44;
 	private static final int BLOCK_SIZE = 32;
-	private static final int COLUMNS = 12;
-	private static final int ROWS = 18;
+	private static final int COLUMNS = 10;
+	private static final int ROWS = 22;
 	
 	private int framesSinceDrop;
 	
