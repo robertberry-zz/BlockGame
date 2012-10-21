@@ -165,6 +165,24 @@ public class Block {
 	}
 	
 	/**
+	 * If the block were to immediately drop down the grid, where it would
+	 * drop to
+	 * 
+	 * @return The block
+	 */
+	public Block getGhostBlock() {
+		Block ghost = this;
+		Block next = ghost.getDownMovement();
+		
+		while (grid.hasSpaceForBlock(next)) {
+			ghost = next;
+			next = next.getDownMovement();
+		}
+		
+		return ghost;
+	}
+	
+	/**
 	 * Renders the block
 	 */
 	public void render() {

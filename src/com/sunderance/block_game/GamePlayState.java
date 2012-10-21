@@ -1,5 +1,9 @@
 package com.sunderance.block_game;
 
+import java.util.Observable;
+import java.util.Observer;
+import java.util.SortedSet;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -12,7 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
  * @author Robert Berry
  * @version 0.1
  */
-public class GamePlayState extends GameState {
+public class GamePlayState extends GameState implements Observer {
 	BlockGrid grid;
 	BlockFactory blockFactory;
 	Block currentBlock;
@@ -38,6 +42,7 @@ public class GamePlayState extends GameState {
 			throws SlickException {
 		grid = new BlockGrid(GRID_TOP_LEFT_X, GRID_TOP_LEFT_Y, BLOCK_SIZE,
 				COLUMNS, ROWS);
+		grid.addObserver(this);
 		blockFactory = new BlockFactory(grid);
 		currentBlock = blockFactory.random();
 		nextBlock = blockFactory.random();
@@ -74,23 +79,15 @@ public class GamePlayState extends GameState {
 		
 		return movement;
 	}
-
-	private void newBlock() {
-		currentBlock = blockFactory.random();
-	}
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		Input input = gc.getInput();
 		
-		// just quit for now
-		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-			//gc.exit();
-		}
-		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
-			newBlock();
+			currentBlock = currentBlock.getGhostBlock();
+			nextBlock();
 		}
 		
 		Block movement = getMovement(input);
@@ -105,13 +102,29 @@ public class GamePlayState extends GameState {
 			if (grid.hasSpaceForBlock(drop)) {
 				currentBlock = drop;
 			} else {
-				grid.consume(currentBlock);
-				newBlock();
+				nextBlock();
 			}
 			
 			framesSinceDrop = 0;
 		} else {
 			framesSinceDrop += 1;
+		}
+	}
+
+	private void nextBlock() {
+		grid.consume(currentBlock);
+		currentBlock = nextBlock;
+		nextBlock = blockFactory.random();
+	}
+
+	@Override
+	public void update(Observable obs, Object event) {
+		if (event instanceof LinesClearedEvent) {
+			SortedSet<Integer> lines = ((LinesClearedEvent) event).getLines();
+
+			for (Integer line : lines) {
+				grid.clearLine(line);
+			}
 		}
 	}
 }

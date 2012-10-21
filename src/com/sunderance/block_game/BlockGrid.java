@@ -1,5 +1,10 @@
 package com.sunderance.block_game;
 
+import java.util.Collections;
+import java.util.Observable;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.newdawn.slick.Image;
 
 import Jama.Matrix;
@@ -11,7 +16,7 @@ import Jama.Matrix;
  * @author Robert Berry
  * @version 0.1
  */
-public class BlockGrid {
+public class BlockGrid extends Observable {
 	private int x;
 	private int y;
 	private int blockSize;
@@ -192,10 +197,46 @@ public class BlockGrid {
 	 * @param block The block
 	 */
 	public void consume(Block block) {
+		TreeSet<Integer> lines_to_check = new TreeSet<Integer>();
+		
 		for (Matrix coordinate : block.getGridCoordinates()) {
 			set((int) coordinate.get(0, 0), (int) coordinate.get(1, 0), 
 					block.getImage());
+			lines_to_check.add((int) coordinate.get(1, 0));
 		}
+		
+		checkLines(lines_to_check);
+	}
+	
+	private void checkLines(Set<Integer> lines) {
+		TreeSet<Integer> cleared = new TreeSet<Integer>(
+				Collections.reverseOrder());
+		
+		for (Integer n : lines) {
+			if (isFullLine(n)) {
+				cleared.add(n);
+			}
+		}
+		
+		if (!cleared.isEmpty()) {
+			setChanged();
+			notifyObservers(new LinesClearedEvent(cleared));
+		}
+	}
+	
+	/**
+	 * Whether the row at y is full
+	 * 
+	 * @param y The row
+	 * @return Whether full
+	 */
+	public boolean isFullLine(int y) {
+		for (int x = 0; x < columns; x++) {
+			if (get(x, y) == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -231,6 +272,22 @@ public class BlockGrid {
 					block.draw(translateX(x), translateY(y));
 				}
 			}
+		}
+	}
+
+	/**
+	 * Clears the given line, moving all above blocks down one line
+	 * 
+	 * @param y The line to clear
+	 */
+	public void clearLine(Integer y) {
+		for (; y < rows - 1; y++) {
+			for (int x = 0; x < columns; x++) {
+				set(x, y, get(x, y + 1));
+			}
+		}
+		for (int x = 0; x < columns; x++) {
+			set(x, rows - 1, null);
 		}
 	}
 }
