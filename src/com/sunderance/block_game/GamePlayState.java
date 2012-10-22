@@ -22,6 +22,8 @@ public class GamePlayState extends GameState implements Observer {
 	Block currentBlock;
 	Block nextBlock;
 	
+	ScoreCounter score;
+	
 	private static final int FRAMES_PER_DROP = 30;
 	
 	private static final int GRID_TOP_LEFT_X = 20;
@@ -29,6 +31,9 @@ public class GamePlayState extends GameState implements Observer {
 	private static final int BLOCK_SIZE = 32;
 	private static final int COLUMNS = 10;
 	private static final int ROWS = 22;
+	
+	private static final float SCORE_X = 500;
+	private static final float SCORE_Y = 20;
 	
 	private int framesSinceDrop;
 	
@@ -46,6 +51,7 @@ public class GamePlayState extends GameState implements Observer {
 		blockFactory = new BlockFactory(grid);
 		currentBlock = blockFactory.random();
 		nextBlock = blockFactory.random();
+		score = new ScoreCounter(SCORE_X, SCORE_Y);
 	}
 
 	@Override
@@ -55,6 +61,7 @@ public class GamePlayState extends GameState implements Observer {
 		// todo: add logic to only render grid when it changes
 		grid.render();
 		currentBlock.render();
+		score.render();
 	}
 	
 	/**
@@ -124,6 +131,7 @@ public class GamePlayState extends GameState implements Observer {
 
 			for (Integer line : lines) {
 				grid.clearLine(line);
+				score.add(10);
 			}
 		}
 	}
