@@ -33,10 +33,14 @@ public class GamePlayState extends GameState implements Observer {
 	private static final int COLUMNS = 10;
 	private static final int ROWS = 22;
 	
+	private static final int SOFT_DROP_SPEED_MULTIPLIER = 6;
+	
 	private static final float SCORE_X = 500;
 	private static final float SCORE_Y = 20;
 	
 	private int framesSinceDrop;
+	
+	private boolean softDrop = false;
 	
 	public GamePlayState(int stateID) {
 		super(stateID);
@@ -80,9 +84,9 @@ public class GamePlayState extends GameState implements Observer {
 	public Block getMovement(Input input) {
 		Block movement = null;
 		
-		if (input.isKeyPressed(Input.KEY_UP)) {
+		if (input.isKeyPressed(Input.KEY_Z)) {
 			movement = currentBlock.getLeftRotation();
-		} else if (input.isKeyPressed(Input.KEY_DOWN)) {
+		} else if (input.isKeyPressed(Input.KEY_X)) {
 			movement = currentBlock.getRightRotation();
 		} else if (input.isKeyPressed(Input.KEY_LEFT)) {
 			movement = currentBlock.getLeftMovement();
@@ -98,9 +102,15 @@ public class GamePlayState extends GameState implements Observer {
 			throws SlickException {
 		Input input = gc.getInput();
 		
-		if (input.isKeyPressed(Input.KEY_SPACE)) {
+		if (input.isKeyPressed(Input.KEY_UP)) {
 			currentBlock = currentBlock.getGhostBlock();
-			nextBlock();
+			framesSinceDrop = FRAMES_PER_DROP / 2;
+		}
+		
+		if (input.isKeyDown(Input.KEY_DOWN)) {
+			softDrop = true;
+		} else {
+			softDrop = false;
 		}
 		
 		Block movement = getMovement(input);
@@ -109,7 +119,9 @@ public class GamePlayState extends GameState implements Observer {
 			currentBlock = movement;
 		}
 		
-		if (framesSinceDrop == FRAMES_PER_DROP) {
+		if (framesSinceDrop == FRAMES_PER_DROP ||
+				softDrop && framesSinceDrop >= FRAMES_PER_DROP / 
+				SOFT_DROP_SPEED_MULTIPLIER) {
 			Block drop = currentBlock.getDownMovement();
 			
 			if (grid.hasSpaceForBlock(drop)) {
