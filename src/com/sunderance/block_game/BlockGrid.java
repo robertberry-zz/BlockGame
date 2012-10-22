@@ -290,4 +290,22 @@ public class BlockGrid extends Observable {
 			set(x, rows - 1, null);
 		}
 	}
+
+	/**
+	 * Width of the grid in pixels
+	 * 
+	 * @return The width
+	 */
+	public float getWidth() {
+		return columns * blockSize;
+	}
+	
+	/**
+	 * Height of the grid in pixels
+	 * 
+	 * @return The height
+	 */
+	public float getHeight() {
+		return rows * blockSize;
+	}
 }

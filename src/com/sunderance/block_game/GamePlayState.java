@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.SortedSet;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -59,6 +60,11 @@ public class GamePlayState extends GameState implements Observer {
 			throws SlickException {
 		// pointless and inefficient to render grid every time
 		// todo: add logic to only render grid when it changes
+		
+		graphics.setColor(Color.darkGray);
+		graphics.fillRect(GRID_TOP_LEFT_X, GRID_TOP_LEFT_Y, grid.getWidth(),
+				grid.getHeight());
+		
 		grid.render();
 		currentBlock.render();
 		score.render();

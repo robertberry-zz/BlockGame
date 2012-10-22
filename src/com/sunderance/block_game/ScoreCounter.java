@@ -16,7 +16,7 @@ import org.newdawn.slick.font.effects.ColorEffect;
  * @author Robert Berry
  */
 public class ScoreCounter {
-	private static final int FONT_SIZE = 20;
+	private static final int FONT_SIZE = 36;
 	private static final String FONT_FAMILY = "Arial";
 	private static final Color colour = Color.white;
 
