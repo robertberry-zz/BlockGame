@@ -72,7 +72,7 @@ public class Block {
 	 * 
 	 * @return The co-ordinates
 	 */
-	public ArrayList<Matrix> getGridCoordinates() {
+	public ArrayList<Matrix> getCoordinates() {
 		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
 		
 		double[][] center_coordinates = {{x}, 
@@ -81,23 +81,6 @@ public class Block {
 		
 		for (Matrix component : getComponents()) {
 			coordinates.add(center.plus(component));
-		}
-		
-		return coordinates;
-	}
-	
-	/**
-	 * Co-ordinates of the component pieces of the block on the screen
-	 * 
-	 * @return The co-ordinates
-	 */
-	public ArrayList<Matrix> getCoordinates() {
-		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
-
-		for (Matrix component : getGridCoordinates()) {
-			double[][] coord = {{grid.translateX((int) component.get(0, 0))}, 
-					{grid.translateY((int) component.get(1, 0))}};
-			coordinates.add(new Matrix(coord));
 		}
 		
 		return coordinates;
@@ -185,12 +168,11 @@ public class Block {
 	/**
 	 * Renders the block
 	 */
-	public void render() {
+	public void render(BlockCoordinateMapper mapper) {
 		for (Matrix m : getCoordinates()) {
-			double x = m.get(0, 0);
-			double y = m.get(1, 0);
+			double x = mapper.translateX((int) m.get(0, 0));
+			double y = mapper.translateY((int) m.get(1, 0));
 			image.draw((float) x, (float) y);
 		}
 	}
-
 }

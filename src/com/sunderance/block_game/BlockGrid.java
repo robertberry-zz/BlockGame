@@ -16,7 +16,7 @@ import Jama.Matrix;
  * @author Robert Berry
  * @version 0.1
  */
-public class BlockGrid extends Observable {
+public class BlockGrid extends Observable implements BlockCoordinateMapper {
 	private int x;
 	private int y;
 	private int blockSize;
@@ -172,7 +172,7 @@ public class BlockGrid extends Observable {
 	 * @return Whether space
 	 */
 	public boolean hasSpaceForBlock(Block movement) {
-		for (Matrix coordinate : movement.getGridCoordinates()) {
+		for (Matrix coordinate : movement.getCoordinates()) {
 			double x = coordinate.get(0, 0);
 			double y = coordinate.get(1, 0);
 			
@@ -199,7 +199,7 @@ public class BlockGrid extends Observable {
 	public void consume(Block block) {
 		TreeSet<Integer> lines_to_check = new TreeSet<Integer>();
 		
-		for (Matrix coordinate : block.getGridCoordinates()) {
+		for (Matrix coordinate : block.getCoordinates()) {
 			set((int) coordinate.get(0, 0), (int) coordinate.get(1, 0), 
 					block.getImage());
 			lines_to_check.add((int) coordinate.get(1, 0));

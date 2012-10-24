@@ -73,7 +73,7 @@ public class GamePlayState extends GameState implements Observer {
 				grid.getHeight());
 		
 		grid.render();
-		currentBlock.render();
+		currentBlock.render(grid);
 		score.render();
 	}
 	
@@ -139,6 +139,10 @@ public class GamePlayState extends GameState implements Observer {
 		}
 	}
 
+	/**
+	 * Consume the current block into the grid and bring the next block into
+	 * play
+	 */
 	private void nextBlock() {
 		grid.consume(currentBlock);
 		currentBlock = nextBlock;
