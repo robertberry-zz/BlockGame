@@ -19,6 +19,8 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class GamePlayState extends GameState implements Observer {
 	BlockGrid grid;
+	NextBlockBox nextBox;
+	
 	BlockFactory blockFactory;
 	Block currentBlock;
 	Block nextBlock;
@@ -29,6 +31,10 @@ public class GamePlayState extends GameState implements Observer {
 	
 	private static final int GRID_TOP_LEFT_X = 20;
 	private static final int GRID_TOP_LEFT_Y = -44;
+	
+	private static final int NEXT_BOX_X = 380;
+	private static final int NEXT_BOX_Y = 100;
+	
 	private static final int BLOCK_SIZE = 32;
 	private static final int COLUMNS = 10;
 	private static final int ROWS = 22;
@@ -57,9 +63,22 @@ public class GamePlayState extends GameState implements Observer {
 				COLUMNS, ROWS);
 		grid.addObserver(this);
 		blockFactory = new BlockFactory(grid);
-		currentBlock = blockFactory.random();
+		setCurrentBlock(blockFactory.random());
 		nextBlock = blockFactory.random();
+		nextBox = new NextBlockBox(NEXT_BOX_X, NEXT_BOX_Y, BLOCK_SIZE, 
+				nextBlock);
 		score = new ScoreCounter(SCORE_X, SCORE_Y);
+	}
+
+	private void setNextBlock(Block nextBlock) {
+		this.nextBlock = nextBlock;
+		nextBox.setBlock(this.nextBlock);
+	}
+
+	private void setCurrentBlock(Block currentBlock) {
+		this.currentBlock = currentBlock;
+		currentBlock.setX(grid.getStartX());
+		currentBlock.setY(grid.getStartY());
 	}
 
 	@Override
@@ -75,6 +94,7 @@ public class GamePlayState extends GameState implements Observer {
 		grid.render();
 		currentBlock.render(grid);
 		score.render();
+		nextBox.render();
 	}
 	
 	/**
@@ -145,8 +165,8 @@ public class GamePlayState extends GameState implements Observer {
 	 */
 	private void nextBlock() {
 		grid.consume(currentBlock);
-		currentBlock = nextBlock;
-		nextBlock = blockFactory.random();
+		this.setCurrentBlock(nextBlock);
+		this.setNextBlock(blockFactory.random());
 	}
 
 	@Override
