@@ -38,6 +38,9 @@ public class GamePlayState extends GameState implements Observer {
 	private static final float SCORE_X = 500;
 	private static final float SCORE_Y = 20;
 	
+	private static final int SCORE_PER_LINE = 100;
+	private static final int FOUR_LINE_BONUS = 400;
+	
 	private int framesSinceDrop;
 	
 	private boolean softDrop = false;
@@ -149,7 +152,14 @@ public class GamePlayState extends GameState implements Observer {
 
 			for (Integer line : lines) {
 				grid.clearLine(line);
-				score.add(10);
+			}
+			
+			int numberLines = lines.size();
+			
+			score.add(numberLines * SCORE_PER_LINE);
+			
+			if (numberLines == 4) {
+				score.add(FOUR_LINE_BONUS);
 			}
 		}
 	}

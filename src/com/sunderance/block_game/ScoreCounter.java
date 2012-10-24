@@ -58,7 +58,7 @@ public class ScoreCounter {
 	 * Renders the counter on the screen
 	 */
 	public void render() {
-		String scoreStr = String.format("%d", score);
+		String scoreStr = String.format("%06d", score);
 		font.drawString(rightX - font.getWidth(scoreStr), y, scoreStr, colour);
 	}
 }
