@@ -18,16 +18,17 @@ import org.newdawn.slick.state.StateBasedGame;
  * @version 0.1
  */
 public class GamePlayState extends GameState implements Observer {
-	BlockGrid grid;
-	NextBlockBox nextBox;
+	private BlockGrid grid;
+	private NextBlockBox nextBox;
 	
-	BlockFactory blockFactory;
-	Block currentBlock;
-	Block nextBlock;
+	private BlockFactory blockFactory;
+	private Block currentBlock;
+	private Block nextBlock;
 	
-	ScoreCounter score;
+	private ScoreCounter score;
+	private LevelLabel level;
 	
-	private static final int FRAMES_PER_DROP = 30;
+	private static final int BASE_FRAMES_PER_DROP = 30;
 	
 	private static final int GRID_TOP_LEFT_X = 20;
 	private static final int GRID_TOP_LEFT_Y = -44;
@@ -39,10 +40,11 @@ public class GamePlayState extends GameState implements Observer {
 	private static final int COLUMNS = 10;
 	private static final int ROWS = 22;
 	
-	private static final int SOFT_DROP_SPEED_MULTIPLIER = 6;
-	
 	private static final float SCORE_X = 500;
 	private static final float SCORE_Y = 20;
+	
+	private static final float LEVEL_X = 380;
+	private static final float LEVEL_Y = 200;
 	
 	private static final int SCORE_PER_LINE = 100;
 	private static final int FOUR_LINE_BONUS = 400;
@@ -53,7 +55,7 @@ public class GamePlayState extends GameState implements Observer {
 	
 	public GamePlayState(int stateID) {
 		super(stateID);
-		framesSinceDrop = FRAMES_PER_DROP;
+		framesSinceDrop = 0;
 	}
 	
 	@Override
@@ -68,13 +70,25 @@ public class GamePlayState extends GameState implements Observer {
 		nextBox = new NextBlockBox(NEXT_BOX_X, NEXT_BOX_Y, BLOCK_SIZE, 
 				nextBlock);
 		score = new ScoreCounter(SCORE_X, SCORE_Y);
+		score.addObserver(this);
+		level = new LevelLabel(1, LEVEL_X, LEVEL_Y);
 	}
 
+	/**
+	 * Sets the block as the next block to come into play
+	 * 
+	 * @param nextBlock The block
+	 */
 	private void setNextBlock(Block nextBlock) {
 		this.nextBlock = nextBlock;
 		nextBox.setBlock(this.nextBlock);
 	}
 
+	/**
+	 * Brings the block into play as the current block
+	 * 
+	 * @param currentBlock The block
+	 */
 	private void setCurrentBlock(Block currentBlock) {
 		this.currentBlock = currentBlock;
 		currentBlock.setX(grid.getStartX());
@@ -95,6 +109,7 @@ public class GamePlayState extends GameState implements Observer {
 		currentBlock.render(grid);
 		score.render();
 		nextBox.render();
+		level.render();
 	}
 	
 	/**
@@ -107,9 +122,9 @@ public class GamePlayState extends GameState implements Observer {
 	public Block getMovement(Input input) {
 		Block movement = null;
 		
-		if (input.isKeyPressed(Input.KEY_Z)) {
+		if (input.isKeyPressed(Input.KEY_UP)) {
 			movement = currentBlock.getLeftRotation();
-		} else if (input.isKeyPressed(Input.KEY_X)) {
+		} else if (input.isKeyPressed(Input.KEY_DOWN)) {
 			movement = currentBlock.getRightRotation();
 		} else if (input.isKeyPressed(Input.KEY_LEFT)) {
 			movement = currentBlock.getLeftMovement();
@@ -125,15 +140,18 @@ public class GamePlayState extends GameState implements Observer {
 			throws SlickException {
 		Input input = gc.getInput();
 		
-		if (input.isKeyPressed(Input.KEY_UP)) {
+		if (input.isKeyPressed(Input.KEY_RETURN)) {
 			currentBlock = currentBlock.getGhostBlock();
-			framesSinceDrop = FRAMES_PER_DROP / 2;
 		}
 		
-		if (input.isKeyDown(Input.KEY_DOWN)) {
+		if (input.isKeyDown(Input.KEY_SPACE)) {
 			softDrop = true;
 		} else {
 			softDrop = false;
+		}
+		
+		if (input.isKeyPressed(Input.KEY_C)) {
+			score.add(100);
 		}
 		
 		Block movement = getMovement(input);
@@ -142,9 +160,7 @@ public class GamePlayState extends GameState implements Observer {
 			currentBlock = movement;
 		}
 		
-		if (framesSinceDrop == FRAMES_PER_DROP ||
-				softDrop && framesSinceDrop >= FRAMES_PER_DROP / 
-				SOFT_DROP_SPEED_MULTIPLIER) {
+		if (blockShouldDrop()) {
 			Block drop = currentBlock.getDownMovement();
 			
 			if (grid.hasSpaceForBlock(drop)) {
@@ -157,6 +173,16 @@ public class GamePlayState extends GameState implements Observer {
 		} else {
 			framesSinceDrop += 1;
 		}
+	}
+	
+	/**
+	 * Whether the block should drop in this frame
+	 * 
+	 * @return Should drop?
+	 */
+	private boolean blockShouldDrop() {
+		return framesSinceDrop >= BASE_FRAMES_PER_DROP - level.getLevel() * 5 ||
+				softDrop && framesSinceDrop >= 1;
 	}
 
 	/**
@@ -185,6 +211,9 @@ public class GamePlayState extends GameState implements Observer {
 			if (numberLines == 4) {
 				score.add(FOUR_LINE_BONUS);
 			}
+		} else if (event instanceof LevelUpEvent) {
+			level.nextLevel();
+			System.out.println("Level up");
 		}
 	}
 }

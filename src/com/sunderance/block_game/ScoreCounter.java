@@ -4,6 +4,7 @@
 package com.sunderance.block_game;
 
 import java.awt.Font;
+import java.util.Observable;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
@@ -15,7 +16,7 @@ import org.newdawn.slick.font.effects.ColorEffect;
  * 
  * @author Robert Berry
  */
-public class ScoreCounter {
+public class ScoreCounter extends Observable {
 	private static final int FONT_SIZE = 36;
 	private static final String FONT_FAMILY = "Arial";
 	private static final Color colour = Color.white;
@@ -24,6 +25,10 @@ public class ScoreCounter {
 	
 	private float rightX;
 	private float y;
+	
+	private static final int[] levelBoundaries = {
+		1000, 3000, 6000, 10000, 15000, 21000
+	};
 	
 	private UnicodeFont font;
 
@@ -45,13 +50,29 @@ public class ScoreCounter {
 		font.loadGlyphs();
 	}
 	
+	private int getBoundaryIndex() {
+		int i, max_i;
+		
+		for (i = 0, max_i = levelBoundaries.length; i < max_i; i++) {
+			if (levelBoundaries[i] > score) {
+				break;
+			}
+		}
+		return i;
+	}
+	
 	/**
 	 * Adds to the score
 	 * 
 	 * @param n How much to add
 	 */
 	public void add(int n) {
+		int oldBoundary = getBoundaryIndex();		
 		score += n;
+		if (getBoundaryIndex() != oldBoundary) {
+			setChanged();
+			notifyObservers(new LevelUpEvent());
+		}
 	}
 	
 	/**
