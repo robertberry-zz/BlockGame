@@ -50,6 +50,11 @@ public class ScoreCounter extends Observable {
 		font.loadGlyphs();
 	}
 	
+	/**
+	 * What level the score currently indicates (0-indexed)
+	 * 
+	 * @return The level
+	 */
 	private int getBoundaryIndex() {
 		int i, max_i;
 		

@@ -31,6 +31,15 @@ public class LevelLabel {
 	
 	private String label;
 	
+	/**
+	 * Creates a level label for the given level at the given x and y
+	 * co-ordinates
+	 * 
+	 * @param level The level
+	 * @param x The x co-ordinate
+	 * @param y The y co-ordinate
+	 * @throws SlickException If the font cannot be loaded
+	 */
 	public LevelLabel(int level, float x, float y) throws SlickException {
 		super();
 		
@@ -51,14 +60,25 @@ public class LevelLabel {
 		updateLabel();
 	}
 
+	/**
+	 * Updates the text to match the current level
+	 */
 	private void updateLabel() {
 		label = String.format("Level %d", level);
 	}
 	
+	/**
+	 * The level being displayed
+	 * 
+	 * @return The level
+	 */
 	public int getLevel() {
 		return level;
 	}
 
+	/**
+	 * Increments the level
+	 */
 	public void nextLevel() {
 		if (level == MAX_LEVEL) {
 			throw new IllegalStateException(
@@ -69,6 +89,9 @@ public class LevelLabel {
 		updateLabel();
 	}
 
+	/**
+	 * Renders the label on the screen
+	 */
 	public void render() {
 		font.drawString(x, y, label);
 	}

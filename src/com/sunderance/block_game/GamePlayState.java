@@ -44,7 +44,7 @@ public class GamePlayState extends GameState implements Observer {
 	private static final float SCORE_Y = 20;
 	
 	private static final float LEVEL_X = 380;
-	private static final float LEVEL_Y = 200;
+	private static final float LEVEL_Y = 600;
 	
 	private static final int SCORE_PER_LINE = 100;
 	private static final int FOUR_LINE_BONUS = 400;
@@ -108,7 +108,7 @@ public class GamePlayState extends GameState implements Observer {
 		grid.render();
 		currentBlock.render(grid);
 		score.render();
-		nextBox.render();
+		nextBox.render(graphics);
 		level.render();
 	}
 	
@@ -148,10 +148,6 @@ public class GamePlayState extends GameState implements Observer {
 			softDrop = true;
 		} else {
 			softDrop = false;
-		}
-		
-		if (input.isKeyPressed(Input.KEY_C)) {
-			score.add(100);
 		}
 		
 		Block movement = getMovement(input);

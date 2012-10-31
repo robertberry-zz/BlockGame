@@ -3,6 +3,9 @@
  */
 package com.sunderance.block_game;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
 /**
  * Box displaying the next block to come into play
  * 
@@ -14,6 +17,10 @@ public class NextBlockBox implements BlockCoordinateMapper {
 	float x;
 	
 	float y;
+	
+	private static final int MAX_BLOCKS_WIDE = 4;
+
+	private static final int MAX_BLOCKS_HIGH = 4;
 	
 	int blockSize;
 
@@ -39,7 +46,7 @@ public class NextBlockBox implements BlockCoordinateMapper {
 	 */
 	@Override
 	public float translateX(int x) {
-		return this.x + x * blockSize;
+		return this.getCentreX() + x * blockSize;
 	}
 
 	/**
@@ -47,12 +54,29 @@ public class NextBlockBox implements BlockCoordinateMapper {
 	 */
 	@Override
 	public float translateY(int y) {
-		return this.y + y * blockSize;
+		return this.getCentreY() + y * blockSize;
 	}
 
-	public void render() {
-		// render a box?
+	public void render(Graphics graphics) {
+		graphics.setColor(Color.darkGray);
+		graphics.fillRect(x, y, getWidth() + blockSize, getHeight() + blockSize);
 		
 		this.block.render(this);
+	}
+
+	private float getWidth() {
+		return blockSize * MAX_BLOCKS_WIDE;
+	}
+
+	private float getHeight() {
+		return blockSize * MAX_BLOCKS_HIGH;
+	}
+	
+	public float getCentreX() {
+		return x + getWidth() / 2;
+	}
+	
+	public float getCentreY() {
+		return y + getHeight() / 2;
 	}
 }
