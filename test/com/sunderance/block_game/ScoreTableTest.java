@@ -2,58 +2,19 @@ package com.sunderance.block_game;
 
 import junit.framework.TestCase;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Test;
 
 public class ScoreTableTest extends TestCase {
-	private List<ScoreTableEntry> testEntries;
-	
-	private ScoreTable testTable;
-	
-	public static int[] TEST_SCORES = {
-			99999,
-			80000,
-			70000,
-			60000,
-			50000,
-			40000,
-			30000,
-			20000,
-			10000,
-			1
-	};	
-	
-	private static String[] TEST_NAMES = {
-			"Rob",
-			"Jamie",
-			"Adam H",
-			"Nick",
-			"Erik",
-			"Amy",
-			"Camilla",
-			"Andy",
-			"Paul",
-			"Peter"
-	};
+	ScoreTable testTable;
 	
 	protected void setUp() {
-		testEntries = new ArrayList<ScoreTableEntry>();
-		
-		for (int i = 0; i < TEST_SCORES.length; i++) {
-			testEntries.add(new ScoreTableEntry(TEST_NAMES[i], TEST_SCORES[i]));
-		}
-		
-		testTable = new ScoreTable(testEntries, testEntries.size());
+		testTable = ScoreTable.fromDefaults();
 	}
 	
 	@Test
@@ -80,8 +41,8 @@ public class ScoreTableTest extends TestCase {
 				int i = 0;
 				
 				for (ScoreTableEntry entry : table) {
-					assertEquals(TEST_NAMES[i], entry.getName());
-					assertEquals(TEST_SCORES[i], entry.getScore());
+					assertEquals(testTable.get(i).getName(), entry.getName());
+					assertEquals(testTable.get(i).getScore(), entry.getScore());
 					
 					i++;
 				}

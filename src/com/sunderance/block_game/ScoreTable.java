@@ -4,7 +4,6 @@
 package com.sunderance.block_game;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,6 +20,32 @@ import java.util.List;
  * @author Robert Berry
  */
 public class ScoreTable implements Iterable<ScoreTableEntry>, Serializable {
+	public static final int[] DEFAULT_SCORES = {
+			99999,
+			80000,
+			70000,
+			60000,
+			50000,
+			40000,
+			30000,
+			20000,
+			10000,
+			1
+	};	
+
+	private static final String[] DEFAULT_NAMES = {
+			"Rob",
+			"Jamie",
+			"Adam H",
+			"Nick",
+			"Erik",
+			"Amy",
+			"Camilla",
+			"Andy",
+			"Paul",
+			"Peter"
+	};
+
 	private static final long serialVersionUID = 1L;
 
 	private List<ScoreTableEntry> scores;
@@ -93,6 +118,22 @@ public class ScoreTable implements Iterable<ScoreTableEntry>, Serializable {
 			System.exit(1);
 			return null;
 		}
+	}
+	
+	/**
+	 * The default score table
+	 * 
+	 * @return The default score table
+	 */
+	public static ScoreTable fromDefaults() {
+		ArrayList<ScoreTableEntry> defaultEntries = new ArrayList<ScoreTableEntry>();
+		
+		for (int i = 0; i < DEFAULT_SCORES.length; i++) {
+			defaultEntries.add(new ScoreTableEntry(DEFAULT_NAMES[i],
+					DEFAULT_SCORES[i]));
+		}
+		
+		return new ScoreTable(defaultEntries, defaultEntries.size());
 	}
 	
 	/**
