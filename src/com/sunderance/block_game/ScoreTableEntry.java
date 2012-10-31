@@ -3,6 +3,7 @@
  */
 package com.sunderance.block_game;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -10,7 +11,9 @@ import java.util.Comparator;
  * 
  * @author Robert Berry
  */
-public class ScoreTableEntry {
+public class ScoreTableEntry implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	String name;
 	int score;
 	

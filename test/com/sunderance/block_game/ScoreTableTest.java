@@ -5,7 +5,10 @@ import junit.framework.TestCase;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,21 +68,32 @@ public class ScoreTableTest extends TestCase {
 
 	@Test
 	public void testFromFile() {
-		File file = new File("test/data/scores.dat");
-		
-		try {
-			ScoreTable table = ScoreTable.fromFile(file);
+		try {			
+			File tmp = File.createTempFile("temp_scores", ".dat");
+			FileOutputStream output = new FileOutputStream(tmp);
+			testTable.writeToFile(output);
 			
-			int i = 0;
-			
-			for (ScoreTableEntry entry : table) {
-				assertEquals(TEST_NAMES[i], entry.getName());
-				assertEquals(TEST_SCORES[i], entry.getScore());
+			FileInputStream input = new FileInputStream(tmp.getAbsolutePath());
+			try {
+				ScoreTable table = ScoreTable.fromFile(input);
 				
-				i++;
+				int i = 0;
+				
+				for (ScoreTableEntry entry : table) {
+					assertEquals(TEST_NAMES[i], entry.getName());
+					assertEquals(TEST_SCORES[i], entry.getScore());
+					
+					i++;
+				}
+			} catch (IOException e) {
+				fail("Could not read test data.");
 			}
-		} catch (FileNotFoundException e) {
-			fail("Could not load test data for scores");
+			tmp.delete();
+		} catch (FileNotFoundException e1) {
+			fail("Could not load test data.");
+		} catch (IOException e1) {
+			System.err.println(e1);
+			fail("Could not write test data.");
 		}
 	}
 }

@@ -3,20 +3,26 @@
  */
 package com.sunderance.block_game;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Table of scores, ordered from highest to least
  * 
  * @author Robert Berry
  */
-public class ScoreTable implements Iterable<ScoreTableEntry> {
+public class ScoreTable implements Iterable<ScoreTableEntry>, Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private List<ScoreTableEntry> scores;
 	
 	private int size;
@@ -70,27 +76,34 @@ public class ScoreTable implements Iterable<ScoreTableEntry> {
 	}
 	
 	/**
-	 * Creates a score table from a given data file
+	 * Creates a score table from a given input stream
 	 * 
-	 * @param data The file
-	 * @return The score table
-	 * @throws FileNotFoundException If the file cannot be found
+	 * @param input The input stream
+	 * @return The score table 
+	 * @throws IOException If cannot read from the input stream
 	 */
-	public static ScoreTable fromFile(File data) throws FileNotFoundException {
-		Scanner scanner = new Scanner(data, "UTF-8").useDelimiter("\\|");
-		
-		ArrayList<ScoreTableEntry> scores = new ArrayList<ScoreTableEntry>();
-		
-		while (scanner.hasNextInt()) {
-			int score = scanner.nextInt();
-			System.out.println(score);
-			String name = scanner.next();
-			System.out.println(name);
-			
-			scores.add(new ScoreTableEntry(name, score));
+	public static ScoreTable fromFile(FileInputStream input) 
+			throws IOException {
+		ObjectInputStream objectInput = new ObjectInputStream(input);	
+		try {
+			return (ScoreTable) objectInput.readObject();
+		} catch (ClassNotFoundException e) {
+			// This shoudn't happen
+			e.printStackTrace();
+			System.exit(1);
+			return null;
 		}
-		
-		return new ScoreTable(scores, scores.size());
+	}
+	
+	/**
+	 * Writes the score table to a file stream
+	 * 
+	 * @param output The output stream
+	 * @throws IOException If the output stream cannot be written to
+	 */
+	public void writeToFile(FileOutputStream output) throws IOException {
+		ObjectOutputStream objectOutput = new ObjectOutputStream(output);
+		objectOutput.writeObject(this);
 	}
 
 	@Override
