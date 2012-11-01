@@ -69,9 +69,11 @@ public class GamePlayState extends GameState implements Observer {
 		nextBlock = blockFactory.random();
 		nextBox = new NextBlockBox(NEXT_BOX_X, NEXT_BOX_Y, BLOCK_SIZE, 
 				nextBlock);
-		score = new ScoreCounter(SCORE_X, SCORE_Y);
+		score = new ScoreCounter(SCORE_X, SCORE_Y, 
+				((BlockGame) game).getMediumFont());
 		score.addObserver(this);
-		level = new LevelLabel(1, LEVEL_X, LEVEL_Y);
+		level = new LevelLabel(1, LEVEL_X, LEVEL_Y, 
+				((BlockGame) game).getMediumFont());
 	}
 
 	/**
@@ -209,7 +211,6 @@ public class GamePlayState extends GameState implements Observer {
 			}
 		} else if (event instanceof LevelUpEvent) {
 			level.nextLevel();
-			System.out.println("Level up");
 		}
 	}
 }

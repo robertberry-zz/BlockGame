@@ -3,11 +3,9 @@
  */
 package com.sunderance.block_game;
 
-import java.awt.Font;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 
 /**
  * Label for the current level
@@ -16,10 +14,6 @@ import org.newdawn.slick.font.effects.ColorEffect;
  */
 public class LevelLabel {
 	private static final int MAX_LEVEL = 6;
-	
-	private static final String FONT_FAMILY = "Arial";
-	
-	private static final int FONT_SIZE = 36;
 	
 	private int level;
 	
@@ -40,7 +34,7 @@ public class LevelLabel {
 	 * @param y The y co-ordinate
 	 * @throws SlickException If the font cannot be loaded
 	 */
-	public LevelLabel(int level, float x, float y) throws SlickException {
+	public LevelLabel(int level, float x, float y, UnicodeFont font) {
 		super();
 		
 		if (level > MAX_LEVEL) {
@@ -52,10 +46,7 @@ public class LevelLabel {
 		this.level = level;
 		this.x = x;
 		this.y = y;
-		font = new UnicodeFont(new Font(FONT_FAMILY, Font.PLAIN, FONT_SIZE));
-		font.addAsciiGlyphs();
-		font.getEffects().add(new ColorEffect(java.awt.Color.white));
-		font.loadGlyphs();
+		this.font = font;
 		
 		updateLabel();
 	}

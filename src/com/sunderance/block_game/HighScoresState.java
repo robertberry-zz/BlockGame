@@ -22,6 +22,7 @@ public class HighScoresState extends GameState {
 	private static final String SCORES_FILE_PATH = "data/scores.dat";
 
 	private ScoreTable scores;
+	private ScoreTableView scoresView;
 	
 	public HighScoresState(int stateID) {
 		super(stateID);
@@ -54,7 +55,7 @@ public class HighScoresState extends GameState {
 	}
 	
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
 		if (!hasScoresFile()) {
 			generateScoresFile();
@@ -62,7 +63,8 @@ public class HighScoresState extends GameState {
 			loadScoresFile();
 		}
 
-		
+		scoresView = new ScoreTableView(scores, 
+				((BlockGame) game).getSmallFont(), (float) 1.4);
 	}
 
 	private void loadScoresFile() {
@@ -78,8 +80,7 @@ public class HighScoresState extends GameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
+		scoresView.render(20, 20);
 	}
 
 	@Override
