@@ -1,4 +1,4 @@
-package com.sunderance.block_game;
+package com.sunderance.block_game.states;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -10,6 +10,16 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import com.sunderance.block_game.Block;
+import com.sunderance.block_game.BlockFactory;
+import com.sunderance.block_game.BlockGame;
+import com.sunderance.block_game.BlockGrid;
+import com.sunderance.block_game.LevelLabel;
+import com.sunderance.block_game.LevelUpEvent;
+import com.sunderance.block_game.LinesClearedEvent;
+import com.sunderance.block_game.NextBlockBox;
+import com.sunderance.block_game.ScoreCounter;
 
 /**
  * In game state

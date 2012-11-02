@@ -1,4 +1,4 @@
-package com.sunderance.block_game;
+package com.sunderance.block_game.states;
 
 import org.newdawn.slick.state.BasicGameState;
 

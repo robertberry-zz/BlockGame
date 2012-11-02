@@ -9,6 +9,11 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.sunderance.block_game.states.GamePlayState;
+import com.sunderance.block_game.states.HighScoresState;
+import com.sunderance.block_game.states.MainMenuState;
+import com.sunderance.block_game.states.PauseState;
+
 public class BlockGame extends StateBasedGame {
 	private static final int WIDTH = 600;
 	private static final int HEIGHT = 680;
@@ -22,7 +27,7 @@ public class BlockGame extends StateBasedGame {
 	private UnicodeFont smallFont;
 	private UnicodeFont mediumFont;
 	
-	enum State {
+	public enum State {
 		MAIN_MENU, GAME_PLAY, PAUSE, HIGH_SCORES
 	}
 	

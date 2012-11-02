@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sunderance.block_game;
+package com.sunderance.block_game.states;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,8 +10,13 @@ import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import com.sunderance.block_game.BlockGame;
+import com.sunderance.block_game.ScoreTable;
+import com.sunderance.block_game.ScoreTableView;
 
 /**
  * High scores / game over screen
@@ -78,15 +83,19 @@ public class HighScoresState extends GameState {
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+	public void render(GameContainer gc, StateBasedGame game, Graphics graphics)
 			throws SlickException {
 		scoresView.render(20, 20);
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
+		Input input = gc.getInput();
+		
+		if (input.isKeyPressed(Input.KEY_ENTER) ||
+				input.isKeyPressed(Input.KEY_SPACE)) {
+			game.enterState(BlockGame.State.MAIN_MENU.ordinal());
+		}
 	}
 }
