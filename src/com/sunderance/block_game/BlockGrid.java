@@ -68,7 +68,7 @@ public class BlockGrid extends Observable implements BlockCoordinateMapper {
 	 * @return The y position
 	 */
 	public int getStartY() {
-		return rows - 1;
+		return rows - 2;
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class BlockGrid extends Observable implements BlockCoordinateMapper {
 			}
 			
 			if (y >= rows) {
-				continue;
+				return false;
 			}
 			
 			if (y <= 0 || get((int) x, (int) y) != null) {

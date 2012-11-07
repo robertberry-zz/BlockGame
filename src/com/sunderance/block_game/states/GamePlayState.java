@@ -173,8 +173,9 @@ public class GamePlayState extends GameState implements Observer {
 			
 			if (grid.hasSpaceForBlock(drop)) {
 				currentBlock = drop;
-			} else {
-				nextBlock();
+			} else if (!nextBlock()) {
+				// game over!
+				game.enterState(BlockGame.State.HIGH_SCORES.ordinal());
 			}
 			
 			framesSinceDrop = 0;
@@ -196,11 +197,19 @@ public class GamePlayState extends GameState implements Observer {
 	/**
 	 * Consume the current block into the grid and bring the next block into
 	 * play
+	 * 
+	 * @return boolean True if block is consumed, false if there is no space in
+	 *   grid.
 	 */
-	private void nextBlock() {
-		grid.consume(currentBlock);
-		this.setCurrentBlock(nextBlock);
-		this.setNextBlock(blockFactory.random());
+	private boolean nextBlock() {
+		if (grid.hasSpaceForBlock(currentBlock)) {
+			grid.consume(currentBlock);
+			this.setCurrentBlock(nextBlock);
+			this.setNextBlock(blockFactory.random());
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
