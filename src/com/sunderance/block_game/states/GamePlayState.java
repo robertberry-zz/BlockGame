@@ -182,6 +182,10 @@ public class GamePlayState extends GameState implements Observer {
 		} else {
 			framesSinceDrop += 1;
 		}
+		
+		if (input.isKeyPressed(Input.KEY_P)) {
+			game.enterState(BlockGame.State.PAUSE.ordinal());
+		}
 	}
 	
 	/**
