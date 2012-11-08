@@ -198,4 +198,11 @@ public class BlockFactory {
 	public Block t() {
 		return makeBlock(tComponents, yellowBlock);
 	}
+
+	/**
+	 * Resets block factory for a new game
+	 */
+	public void reset() {
+		createPieceBag();
+	}
 }

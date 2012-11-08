@@ -80,4 +80,11 @@ public class ScoreCounter extends Observable {
 		String scoreStr = String.format("%06d", score);
 		font.drawString(rightX - font.getWidth(scoreStr), y, scoreStr, colour);
 	}
+
+	/**
+	 * Reset score to zero
+	 */
+	public void reset() {
+		score = 0;
+	}
 }

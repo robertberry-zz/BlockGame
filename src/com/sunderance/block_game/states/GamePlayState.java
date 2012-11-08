@@ -85,6 +85,18 @@ public class GamePlayState extends GameState implements Observer {
 		level = new LevelLabel(1, LEVEL_X, LEVEL_Y, 
 				((BlockGame) game).getMediumFont());
 	}
+	
+	/**
+	 * Reset game
+	 */
+	public void reset() {
+		grid.clear();
+		score.reset();
+		level.reset();
+		blockFactory.reset();
+		setCurrentBlock(blockFactory.random());
+		setNextBlock(blockFactory.random());
+	}
 
 	/**
 	 * Sets the block as the next block to come into play

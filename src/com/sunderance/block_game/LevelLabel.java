@@ -86,4 +86,11 @@ public class LevelLabel {
 	public void render() {
 		font.drawString(x, y, label);
 	}
+
+	/**
+	 * Resets level to 1.
+	 */
+	public void reset() {
+		this.level = 1;
+	}
 }

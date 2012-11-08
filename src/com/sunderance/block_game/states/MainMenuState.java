@@ -100,7 +100,9 @@ public class MainMenuState extends GameState {
 		} else if (input.isKeyPressed(Input.KEY_RETURN)) {
 			switch (menu.getSelectedIndex()) {
 			case 0:
-				game.enterState(BlockGame.State.GAME_PLAY.ordinal());
+				int gameplay_state_id = BlockGame.State.GAME_PLAY.ordinal();
+				((GamePlayState) game.getState(gameplay_state_id)).reset();
+				game.enterState(gameplay_state_id);
 				break;
 			case 1:
 				game.enterState(BlockGame.State.HIGH_SCORES.ordinal());
