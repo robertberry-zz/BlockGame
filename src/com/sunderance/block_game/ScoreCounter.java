@@ -9,6 +9,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.Color;
 
+import com.sunderance.block_game.events.LevelUpEvent;
+
 /**
  * ScoreCounter class
  * 

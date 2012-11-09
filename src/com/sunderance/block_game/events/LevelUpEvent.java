@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sunderance.block_game;
+package com.sunderance.block_game.events;
 
 /**
  * Event thrown when the user has reached a new level

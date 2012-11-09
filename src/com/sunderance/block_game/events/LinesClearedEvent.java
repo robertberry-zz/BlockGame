@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sunderance.block_game;
+package com.sunderance.block_game.events;
 
 import java.util.SortedSet;
 

@@ -7,6 +7,9 @@ import java.util.TreeSet;
 
 import org.newdawn.slick.Image;
 
+import com.sunderance.block_game.events.LinesClearedEvent;
+import com.sunderance.block_game.events.NoLinesClearedEvent;
+
 import Jama.Matrix;
 
 

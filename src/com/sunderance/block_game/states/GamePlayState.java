@@ -16,11 +16,11 @@ import com.sunderance.block_game.BlockFactory;
 import com.sunderance.block_game.BlockGame;
 import com.sunderance.block_game.BlockGrid;
 import com.sunderance.block_game.LevelLabel;
-import com.sunderance.block_game.LevelUpEvent;
-import com.sunderance.block_game.LinesClearedEvent;
 import com.sunderance.block_game.NextBlockBox;
-import com.sunderance.block_game.NoLinesClearedEvent;
 import com.sunderance.block_game.ScoreCounter;
+import com.sunderance.block_game.events.LevelUpEvent;
+import com.sunderance.block_game.events.LinesClearedEvent;
+import com.sunderance.block_game.events.NoLinesClearedEvent;
 
 /**
  * In game state
