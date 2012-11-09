@@ -76,6 +76,9 @@ public class GamePlayState extends GameState implements Observer {
 		grid.addObserver(this);
 		blockFactory = new BlockFactory(grid);
 		setCurrentBlock(blockFactory.random());
+		// todo: refactor following so it all happens in 'reset', which is 
+		// called every time a game begins anyway. Currently generates blocks
+		// that are then thrown away when reset is called.
 		nextBlock = blockFactory.random();
 		nextBox = new NextBlockBox(NEXT_BOX_X, NEXT_BOX_Y, BLOCK_SIZE, 
 				nextBlock);
@@ -186,8 +189,7 @@ public class GamePlayState extends GameState implements Observer {
 			if (grid.hasSpaceForBlock(drop)) {
 				currentBlock = drop;
 			} else if (!nextBlock()) {
-				// game over!
-				game.enterState(BlockGame.State.HIGH_SCORES.ordinal());
+				game.enterState(BlockGame.State.GAME_OVER.ordinal());
 			}
 			
 			framesSinceDrop = 0;

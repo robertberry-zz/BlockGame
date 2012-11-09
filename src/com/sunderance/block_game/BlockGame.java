@@ -13,6 +13,7 @@ import com.sunderance.block_game.states.GamePlayState;
 import com.sunderance.block_game.states.HighScoresState;
 import com.sunderance.block_game.states.MainMenuState;
 import com.sunderance.block_game.states.PauseState;
+import com.sunderance.block_game.states.GameOverState;
 
 public class BlockGame extends StateBasedGame {
 	private static final int WIDTH = 600;
@@ -28,7 +29,7 @@ public class BlockGame extends StateBasedGame {
 	private UnicodeFont mediumFont;
 	
 	public enum State {
-		MAIN_MENU, GAME_PLAY, PAUSE, HIGH_SCORES
+		MAIN_MENU, GAME_PLAY, PAUSE, HIGH_SCORES, GAME_OVER
 	}
 	
 	public BlockGame() {
@@ -97,5 +98,6 @@ public class BlockGame extends StateBasedGame {
 		this.addState(new GamePlayState(State.GAME_PLAY.ordinal()));
 		this.addState(new PauseState(State.PAUSE.ordinal()));
 		this.addState(new HighScoresState(State.HIGH_SCORES.ordinal()));
+		this.addState(new GameOverState(State.GAME_OVER.ordinal()));
 	}
 }
