@@ -19,6 +19,7 @@ import com.sunderance.block_game.LevelLabel;
 import com.sunderance.block_game.LevelUpEvent;
 import com.sunderance.block_game.LinesClearedEvent;
 import com.sunderance.block_game.NextBlockBox;
+import com.sunderance.block_game.NoLinesClearedEvent;
 import com.sunderance.block_game.ScoreCounter;
 
 /**
@@ -56,8 +57,12 @@ public class GamePlayState extends GameState implements Observer {
 	private static final float LEVEL_X = 380;
 	private static final float LEVEL_Y = 600;
 	
+	private static final int BLOCK_DROP_SCORE = 10;
 	private static final int SCORE_PER_LINE = 100;
 	private static final int FOUR_LINE_BONUS = 400;
+	private static final int DOUBLE_FOUR_LINE_BONUS = 800;
+	
+	private boolean fourLineBonus = false;
 	
 	private int framesSinceDrop;
 	
@@ -244,8 +249,17 @@ public class GamePlayState extends GameState implements Observer {
 			score.add(numberLines * SCORE_PER_LINE);
 			
 			if (numberLines == 4) {
-				score.add(FOUR_LINE_BONUS);
+				if (fourLineBonus) {
+					score.add(DOUBLE_FOUR_LINE_BONUS);
+				} else {
+					score.add(FOUR_LINE_BONUS);
+				}
+				fourLineBonus = true;
+			} else {
+				fourLineBonus = false;
 			}
+		} else if (event instanceof NoLinesClearedEvent) {
+			score.add(BLOCK_DROP_SCORE);
 		} else if (event instanceof LevelUpEvent) {
 			level.nextLevel();
 		}

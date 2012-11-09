@@ -221,6 +221,9 @@ public class BlockGrid extends Observable implements BlockCoordinateMapper {
 		if (!cleared.isEmpty()) {
 			setChanged();
 			notifyObservers(new LinesClearedEvent(cleared));
+		} else {
+			setChanged();
+			notifyObservers(new NoLinesClearedEvent());
 		}
 	}
 	
