@@ -45,6 +45,11 @@ public class ScoreTable implements Iterable<ScoreTableEntry>, Serializable {
 			"Paul",
 			"Peter"
 	};
+	
+	public static final String ALLOWED_CHARS = 
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 ";
+	
+	public static final int MAX_NAME_LENGTH = 15;
 
 	private static final long serialVersionUID = 1L;
 
