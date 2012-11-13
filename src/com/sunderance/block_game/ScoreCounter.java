@@ -89,4 +89,13 @@ public class ScoreCounter extends Observable {
 	public void reset() {
 		score = 0;
 	}
+	
+	/**
+	 * The score
+	 * 
+	 * @return The score
+	 */
+	public int getValue() {
+		return score;
+	}
 }

@@ -264,4 +264,13 @@ public class GamePlayState extends GameState implements Observer {
 			level.nextLevel();
 		}
 	}
+
+	/**
+	 * Current score
+	 * 
+	 * @return The score
+	 */
+	public int getScore() {
+		return score.getValue();
+	}
 }

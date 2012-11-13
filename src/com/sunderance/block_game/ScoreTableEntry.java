@@ -14,8 +14,8 @@ import java.util.Comparator;
 public class ScoreTableEntry implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	String name;
-	int score;
+	private String name;
+	private int score;
 	
 	/**
 	 * Creates a score table entry with the given name of the person whose score

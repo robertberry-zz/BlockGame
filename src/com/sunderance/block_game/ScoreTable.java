@@ -79,6 +79,21 @@ public class ScoreTable implements Iterable<ScoreTableEntry>, Serializable {
 		this.scores = scores;
 		this.size = size;
 	}
+	
+	/**
+	 * Whether the given score could be inserted into this table
+	 * 
+	 * @param score The score
+	 * @return Whether could be inserted
+	 */
+	public boolean incorporates(int score) {
+		for (ScoreTableEntry entry : this) {
+			if (score > entry.getScore()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Constructs a new score table from the current with the addition of 

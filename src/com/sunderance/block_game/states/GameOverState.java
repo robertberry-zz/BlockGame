@@ -33,10 +33,14 @@ public class GameOverState extends GameState {
 	
 	private static final int NAME_FIELD_Y = 200;
 	
-	private static TextField nameField;
+	private TextField nameField;
 	
-	org.newdawn.slick.state.GameState gamePlay;
-	UnicodeFont font;
+	private org.newdawn.slick.state.GameState gamePlay;
+	private UnicodeFont font;
+	
+	private boolean highScore;
+	
+	private int score;
 	
 	/**
 	 * Constructs the state with the given state ID
@@ -65,6 +69,22 @@ public class GameOverState extends GameState {
 		Input input = gc.getInput();
 		input.addKeyListener(nameField);
 	}
+	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame game) {
+		nameField.setValue("");
+				
+		score = ((GamePlayState) 
+				game.getState(BlockGame.State.GAME_PLAY.ordinal())).getScore();
+		
+		highScore = ((BlockGame) game).isHighScore(score);
+
+		if (highScore) {
+			nameField.enable();
+		} else {
+			nameField.disable();
+		}
+	}
 
 	/**
 	 * @see org.newdawn.slick.state.GameState#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
@@ -88,9 +108,17 @@ public class GameOverState extends GameState {
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
-			nameField.setValue("");
+			if (highScore) {
+				String name = nameField.getValue();
+				
+				if (name == "") {
+					name = "Anon";
+				}
+				
+				((BlockGame) game).addHighScore(name, score);
+			}
+			
 			game.enterState(BlockGame.State.HIGH_SCORES.ordinal());
 		}
 	}
-
 }

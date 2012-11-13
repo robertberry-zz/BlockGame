@@ -1,6 +1,10 @@
 package com.sunderance.block_game;
 
 import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -28,12 +32,83 @@ public class BlockGame extends StateBasedGame {
 	private UnicodeFont smallFont;
 	private UnicodeFont mediumFont;
 	
+	private ScoreTable scores;
+	
 	public enum State {
 		MAIN_MENU, GAME_PLAY, PAUSE, HIGH_SCORES, GAME_OVER
 	}
 	
 	public BlockGame() {
 		super("BlockGame");
+	}
+	
+	private static final String SCORES_FILE_PATH = "data/scores.dat";
+	
+	public ScoreTable getScores() {
+		if (scores == null) {
+			if (hasScoresFile()) {
+				loadScoresFile();
+			} else {
+				generateScoresFile();
+			}
+		}
+		return scores;
+	}
+	
+	/**
+	 * Whether the given score is a high score
+	 * 
+	 * @param score The score
+	 * @return Whether high
+	 */
+	public boolean isHighScore(int score) {
+		return getScores().incorporates(score);
+	}
+	
+	/**
+	 * Adds the given name and score as a high score
+	 * 
+	 * @param name The name
+	 * @param score The score
+	 */
+	public void addHighScore(String name, int score) {
+		scores = scores.withScore(new ScoreTableEntry(name, score));
+	}
+	
+	/**
+	 * Whether the high scores file exists
+	 * 
+	 * @return Whether scores file exists
+	 */
+	private boolean hasScoresFile() {
+		File file = new File(SCORES_FILE_PATH);
+		
+		return file.exists();
+	}
+	
+	/**
+	 * Generate a default scores file
+	 */
+	private void generateScoresFile() {
+		scores = ScoreTable.fromDefaults();
+		
+		try {
+			FileOutputStream output = new FileOutputStream(SCORES_FILE_PATH);
+			scores.writeToFile(output);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	
+	private void loadScoresFile() {
+		try {
+			FileInputStream input = new FileInputStream(SCORES_FILE_PATH);
+			scores = ScoreTable.fromFile(input);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private UnicodeFont loadFont(int fontSize) {

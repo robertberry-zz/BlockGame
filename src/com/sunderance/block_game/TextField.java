@@ -22,6 +22,8 @@ public class TextField implements KeyListener {
 	private int maxLength;
 	
 	private Set<Character> allowedChars;
+
+	private boolean enabled = true;
 	
 	public TextField(UnicodeFont font, Set<Character> allowedChars, 
 			int maxLength, String initialValue) {
@@ -54,7 +56,7 @@ public class TextField implements KeyListener {
 
 	@Override
 	public boolean isAcceptingInput() {
-		return true;
+		return enabled;
 	}
 
 	@Override
@@ -80,5 +82,13 @@ public class TextField implements KeyListener {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public void enable() {
+		this.enabled  = true;
+	}
+	
+	public void disable() {
+		this.enabled = false;
 	}
 }
