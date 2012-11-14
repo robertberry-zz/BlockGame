@@ -45,7 +45,8 @@ public class ScoreTableView {
 		float skipY = font.getLineHeight() * lineHeight;
 		
 		for (ScoreTableEntry entry : scores) {
-			String line = String.format("%-10s %10d", entry.getName(), 
+			String line = String.format("%-" + ScoreTable.MAX_NAME_LENGTH + 
+					"s %10d", entry.getName(), 
 					entry.getScore());
 			font.drawString(x, y, line);
 			font.getHeight(line);

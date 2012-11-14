@@ -32,6 +32,11 @@ public class HighScoresState extends GameState {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame game) {
+		// sometimes still has 'enter' from inputting high score name, which
+		// makes this immediately quit
+		// todo: figure out better way of dealing with this
+		gc.getInput().clearKeyPressedRecord();
+		
 		scoresView = new ScoreTableView(((BlockGame) game).getScores(), 
 		((BlockGame) game).getSmallFont(), (float) 1.4);	
 	}

@@ -9,6 +9,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.UnicodeFont;
 
+import com.google.common.base.Strings;
+
 /**
  * Text field component
  * 
@@ -25,13 +27,16 @@ public class TextField implements KeyListener {
 
 	private boolean enabled = true;
 	
+	private Character emptyChar;
+	
 	public TextField(UnicodeFont font, Set<Character> allowedChars, 
-			int maxLength, String initialValue) {
+			int maxLength, String initialValue, Character emptyChar) {
 		super();
 		this.font = font;
 		this.value = initialValue;
 		this.allowedChars = allowedChars;
 		this.maxLength = maxLength;
+		this.emptyChar = emptyChar;
 	}
 
 	public String getValue() {
@@ -39,9 +44,8 @@ public class TextField implements KeyListener {
 	}
 
 	public void render(float x, float y) {
-		font.drawString(x, y, value);
+		font.drawString(x, y, Strings.padEnd(value, maxLength, emptyChar));
 	}
-
 
 	@Override
 	public void inputEnded() {
