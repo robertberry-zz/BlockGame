@@ -73,6 +73,7 @@ public class BlockGame extends StateBasedGame {
 	 */
 	public void addHighScore(String name, int score) {
 		scores = scores.withScore(new ScoreTableEntry(name, score));
+		saveScoresFile();
 	}
 	
 	/**
@@ -91,7 +92,10 @@ public class BlockGame extends StateBasedGame {
 	 */
 	private void generateScoresFile() {
 		scores = ScoreTable.fromDefaults();
-		
+		saveScoresFile();
+	}
+	
+	private void saveScoresFile() {
 		try {
 			FileOutputStream output = new FileOutputStream(SCORES_FILE_PATH);
 			scores.writeToFile(output);
