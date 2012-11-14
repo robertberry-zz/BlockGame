@@ -44,6 +44,11 @@ public class BlockGame extends StateBasedGame {
 	
 	private static final String SCORES_FILE_PATH = "data/scores.dat";
 	
+	/**
+	 * The high scores
+	 * 
+	 * @return The scores
+	 */
 	public ScoreTable getScores() {
 		if (scores == null) {
 			if (hasScoresFile()) {
@@ -95,6 +100,9 @@ public class BlockGame extends StateBasedGame {
 		saveScoresFile();
 	}
 	
+	/**
+	 * Save high scores to file
+	 */
 	private void saveScoresFile() {
 		try {
 			FileOutputStream output = new FileOutputStream(SCORES_FILE_PATH);
@@ -105,6 +113,9 @@ public class BlockGame extends StateBasedGame {
 		}
 	}
 	
+	/**
+	 * Load high scores from file
+	 */
 	private void loadScoresFile() {
 		try {
 			FileInputStream input = new FileInputStream(SCORES_FILE_PATH);
@@ -115,6 +126,12 @@ public class BlockGame extends StateBasedGame {
 		}
 	}
 	
+	/**
+	 * Loads a font of the given size in the game's correct font family
+	 * 
+	 * @param fontSize The font size
+	 * @return The font
+	 */
 	private UnicodeFont loadFont(int fontSize) {
 		UnicodeFont font = new UnicodeFont(new Font(FONT_FAMILY, Font.PLAIN, 
 					fontSize));

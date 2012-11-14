@@ -21,16 +21,16 @@ import java.util.List;
  */
 public class ScoreTable implements Iterable<ScoreTableEntry>, Serializable {
 	public static final int[] DEFAULT_SCORES = {
-			99999,
-			80000,
-			70000,
-			60000,
-			50000,
-			40000,
-			30000,
-			20000,
 			10000,
-			1
+			8000,
+			7000,
+			6000,
+			5000,
+			2000,
+			1200,
+			1000,
+			500,
+			100
 	};	
 
 	private static final String[] DEFAULT_NAMES = {
