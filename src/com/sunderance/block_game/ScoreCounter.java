@@ -79,7 +79,7 @@ public class ScoreCounter extends Observable {
 	 * Renders the counter on the screen
 	 */
 	public void render() {
-		String scoreStr = String.format("%06d", score);
+		String scoreStr = String.format("%07d", score);
 		font.drawString(rightX - font.getWidth(scoreStr), y, scoreStr, colour);
 	}
 

@@ -9,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.sunderance.block_game.Block;
@@ -39,23 +40,35 @@ public class GamePlayState extends GameState implements Observer {
 	private ScoreCounter score;
 	private LevelLabel level;
 	
+	private UnicodeFont smallFont;
+	
 	private static final int BASE_FRAMES_PER_DROP = 30;
 	
 	private static final int GRID_TOP_LEFT_X = 20;
 	private static final int GRID_TOP_LEFT_Y = -44;
 	
+	private static final String NEXT_TEXT = "Next block";
+	
+	private static final int NEXT_TEXT_X = 380;
+	private static final int NEXT_TEXT_Y = 115;
+	
 	private static final int NEXT_BOX_X = 380;
-	private static final int NEXT_BOX_Y = 100;
+	private static final int NEXT_BOX_Y = 155;
 	
 	private static final int BLOCK_SIZE = 32;
 	private static final int COLUMNS = 10;
 	private static final int ROWS = 22;
 	
-	private static final float SCORE_X = 500;
-	private static final float SCORE_Y = 20;
+	private static final int SCORE_X = 540;
+	private static final int SCORE_Y = 52;
 	
-	private static final float LEVEL_X = 380;
-	private static final float LEVEL_Y = 600;
+	private static final String SCORE_TEXT = "Score";
+	
+	private static final int SCORE_TEXT_X = 380;
+	private static final int SCORE_TEXT_Y = 20;
+	
+	private static final int LEVEL_X = 380;
+	private static final int LEVEL_Y = 340;
 	
 	private static final int BLOCK_DROP_SCORE = 10;
 	private static final int SCORE_PER_LINE = 100;
@@ -90,8 +103,9 @@ public class GamePlayState extends GameState implements Observer {
 		score = new ScoreCounter(SCORE_X, SCORE_Y, 
 				((BlockGame) game).getMediumFont());
 		score.addObserver(this);
-		level = new LevelLabel(1, LEVEL_X, LEVEL_Y, 
-				((BlockGame) game).getMediumFont());
+		smallFont = ((BlockGame) game).getSmallFont();
+		level = new LevelLabel(1, LEVEL_X, LEVEL_Y, smallFont);
+
 	}
 	
 	/**
@@ -142,6 +156,8 @@ public class GamePlayState extends GameState implements Observer {
 		score.render();
 		nextBox.render(graphics);
 		level.render();
+		smallFont.drawString(NEXT_TEXT_X, NEXT_TEXT_Y, NEXT_TEXT);
+		smallFont.drawString(SCORE_TEXT_X, SCORE_TEXT_Y, SCORE_TEXT);
 	}
 	
 	/**
