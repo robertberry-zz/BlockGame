@@ -5,6 +5,7 @@ package com.sunderance.block_game.states;
 
 import java.util.TreeSet;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -23,26 +24,35 @@ import com.sunderance.block_game.TextField;
  * @author Robert Berry
  */
 public class GameOverState extends GameState {
-	private static final int GAME_OVER_TEXT_X = 30;
+	private int GAME_OVER_TEXT_X;
 	
 	private static final int GAME_OVER_TEXT_Y = 100;
 	
 	private static final String GAME_OVER_TEXT = "Game over!";
 	
-	private static final String HIGH_SCORE_TEXT = "High score - enter name:";
+	private static final String HIGH_SCORE_TEXT = "High score!";
 	
-	private static final int HIGH_SCORE_TEXT_X = 50;
+	private static final String ENTER_NAME_TEXT = "Enter name:";
+	
+	private int ENTER_NAME_TEXT_X;
+	
+	private static final int ENTER_NAME_TEXT_Y = 260;
+	
+	private int HIGH_SCORE_TEXT_X;
 	
 	private static final int HIGH_SCORE_TEXT_Y = 200;
 	
-	private static final int NAME_FIELD_X = 50;
+	private int NAME_FIELD_X;
 	
-	private static final int NAME_FIELD_Y = 300;
+	private static final int NAME_FIELD_Y = 320;
 	
 	private TextField nameField;
 	
 	private org.newdawn.slick.state.GameState gamePlay;
+	
 	private UnicodeFont font;
+	
+	private UnicodeFont smallFont;
 	
 	private boolean highScore;
 	
@@ -65,6 +75,7 @@ public class GameOverState extends GameState {
 			throws SlickException {
 		gamePlay = game.getState(BlockGame.State.GAME_PLAY.ordinal());
 		font = ((BlockGame) game).getMediumFont();
+		smallFont = ((BlockGame) game).getSmallFont();
 		
 		TreeSet<Character> allowedChars =
 				new TreeSet<Character>(Lists.charactersOf(ScoreTable.ALLOWED_CHARS));
@@ -74,6 +85,13 @@ public class GameOverState extends GameState {
 		
 		Input input = gc.getInput();
 		input.addKeyListener(nameField);
+		
+		int width = gc.getWidth();
+		
+		NAME_FIELD_X = (width - nameField.getWidth()) / 2;
+		GAME_OVER_TEXT_X = (width - font.getWidth(GAME_OVER_TEXT)) / 2;
+		HIGH_SCORE_TEXT_X = (width - font.getWidth(HIGH_SCORE_TEXT)) / 2;
+		ENTER_NAME_TEXT_X = (width - smallFont.getWidth(ENTER_NAME_TEXT)) / 2;
 	}
 	
 	@Override
@@ -99,12 +117,21 @@ public class GameOverState extends GameState {
 	public void render(GameContainer gc, StateBasedGame game, Graphics graphics)
 			throws SlickException {
 		gamePlay.render(gc, game, graphics);
+		
+		graphics.setColor(Color.black);
+		graphics.fillRect(0, GAME_OVER_TEXT_Y - 10, gc.getWidth(), 
+				font.getHeight(GAME_OVER_TEXT) + 30);
 
 		font.drawString(GAME_OVER_TEXT_X, GAME_OVER_TEXT_Y, GAME_OVER_TEXT);
 		
 		if (highScore) {
+			graphics.fillRect(0, HIGH_SCORE_TEXT_Y - 10, gc.getWidth(), 
+					NAME_FIELD_Y - HIGH_SCORE_TEXT_Y + 60);
+			
 			font.drawString(HIGH_SCORE_TEXT_X, HIGH_SCORE_TEXT_Y,
 					HIGH_SCORE_TEXT);
+			smallFont.drawString(ENTER_NAME_TEXT_X, ENTER_NAME_TEXT_Y, 
+					ENTER_NAME_TEXT);
 			
 			nameField.render(NAME_FIELD_X, NAME_FIELD_Y);
 		}
@@ -120,6 +147,7 @@ public class GameOverState extends GameState {
 		
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
 			if (highScore) {
+				nameField.disable();
 				String name = nameField.getValue();
 				
 				if (name == "") {

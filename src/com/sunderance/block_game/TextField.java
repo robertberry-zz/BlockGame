@@ -46,6 +46,14 @@ public class TextField implements KeyListener {
 	public void render(float x, float y) {
 		font.drawString(x, y, Strings.padEnd(value, maxLength, emptyChar));
 	}
+	
+	public int getWidth() {
+		return font.getWidth(Strings.repeat(" ", maxLength));
+	}
+	
+	public int getHeight() {
+		return font.getHeight(" ");
+	}
 
 	@Override
 	public void inputEnded() {
