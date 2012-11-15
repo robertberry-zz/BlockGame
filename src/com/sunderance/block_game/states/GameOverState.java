@@ -41,9 +41,7 @@ public class GameOverState extends GameState {
 	private int HIGH_SCORE_TEXT_X;
 	
 	private static final int HIGH_SCORE_TEXT_Y = 200;
-	
-	private int NAME_FIELD_X;
-	
+
 	private static final int NAME_FIELD_Y = 320;
 	
 	private TextField nameField;
@@ -81,14 +79,13 @@ public class GameOverState extends GameState {
 				new TreeSet<Character>(Lists.charactersOf(ScoreTable.ALLOWED_CHARS));
 		
 		nameField = new TextField(font, allowedChars,
-				ScoreTable.MAX_NAME_LENGTH, "", '_');
+				ScoreTable.MAX_NAME_LENGTH, "");
 		
 		Input input = gc.getInput();
 		input.addKeyListener(nameField);
 		
 		int width = gc.getWidth();
 		
-		NAME_FIELD_X = (width - nameField.getWidth()) / 2;
 		GAME_OVER_TEXT_X = (width - font.getWidth(GAME_OVER_TEXT)) / 2;
 		HIGH_SCORE_TEXT_X = (width - font.getWidth(HIGH_SCORE_TEXT)) / 2;
 		ENTER_NAME_TEXT_X = (width - smallFont.getWidth(ENTER_NAME_TEXT)) / 2;
@@ -133,7 +130,8 @@ public class GameOverState extends GameState {
 			smallFont.drawString(ENTER_NAME_TEXT_X, ENTER_NAME_TEXT_Y, 
 					ENTER_NAME_TEXT);
 			
-			nameField.render(NAME_FIELD_X, NAME_FIELD_Y);
+			int nameFieldX = (gc.getWidth() - nameField.getWidth()) / 2;
+			nameField.render(nameFieldX, NAME_FIELD_Y);
 		}
 	}
 
