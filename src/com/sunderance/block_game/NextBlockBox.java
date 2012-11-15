@@ -46,7 +46,12 @@ public class NextBlockBox implements BlockCoordinateMapper {
 	 */
 	@Override
 	public float translateX(int x) {
-		return this.getCentreX() + x * blockSize;
+		// not proud of this horrid code. it's a workaround. in retrospect,
+		// I should have defined the block components as the co-ordinates of the
+		// block items relative to the centre.
+		return this.getCentreX() + x * blockSize - 
+				block.getCentreX() * blockSize +
+				(block.getWidth() % 2 == 0 ? blockSize / 2 : 0);
 	}
 
 	/**
@@ -54,13 +59,14 @@ public class NextBlockBox implements BlockCoordinateMapper {
 	 */
 	@Override
 	public float translateY(int y) {
-		return this.getCentreY() + y * blockSize;
+		return this.getCentreY() - y * blockSize +
+				(block.getHeight() % 2 == 0 ? + blockSize / 2 : 0);
 	}
 
 	public void render(Graphics graphics) {
 		graphics.setColor(Color.darkGray);
-		graphics.fillRect(x, y, getWidth() + blockSize, getHeight() + blockSize);
-		
+		graphics.fillRect(x, y, getWidth() + blockSize, 
+				getHeight() + blockSize);
 		this.block.render(this);
 	}
 

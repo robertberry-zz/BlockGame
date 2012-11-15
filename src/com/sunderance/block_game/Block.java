@@ -1,6 +1,7 @@
 package com.sunderance.block_game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.Image;
 
@@ -88,7 +89,7 @@ public class Block {
 	 * 
 	 * @return The co-ordinates
 	 */
-	public ArrayList<Matrix> getCoordinates() {
+	public List<Matrix> getCoordinates() {
 		ArrayList<Matrix> coordinates = new ArrayList<Matrix>();
 		
 		double[][] center_coordinates = {{x}, 
@@ -100,6 +101,82 @@ public class Block {
 		}
 		
 		return coordinates;
+	}
+	
+	/**
+	 * Co-ordinate width of block.
+	 * 
+	 * @return The width
+	 */
+	public int getWidth() {
+		return getMaxX() - getMinX();
+	}
+	
+	public int getMinX() {
+		return getMinA(0, 0);
+	}
+	
+	public int getMinY() {
+		return getMinA(1, 0);
+	}
+	
+	public int getMaxX() {
+		// the 1 accounts for the size of the block
+		return getMaxA(0, 0) + 1;
+	}
+	
+	public int getMaxY() {
+		// the 1 accounts for the size of the block
+		return getMaxA(1, 0) + 1;
+	}
+	
+	public float getCentreX() {
+		return (getMaxX() + getMinX()) / 2;
+	}
+	
+	public float getCentreY() {
+		return (getMaxY() + getMinY()) / 2;
+	}
+	
+	private int getMinA(int a1, int a2) {
+		List<Matrix> coordinates = getCoordinates();
+		Matrix first = coordinates.get(0);
+		double minA = first.get(a1, a2);
+		
+		for (Matrix coordinate : getCoordinates()) {
+			double a = coordinate.get(a1, a2);
+			
+			if (a < minA) {
+				minA = a;
+			}
+		}
+		
+		return (int) minA;
+	}
+	
+	private int getMaxA(int a1, int a2) {
+		List<Matrix> coordinates = getCoordinates();
+		Matrix first = coordinates.get(0);
+		double maxA = first.get(a1, a2);
+		
+		for (Matrix coordinate : getCoordinates()) {
+			double a = coordinate.get(a1, a2);
+			
+			if (a > maxA) {
+				maxA = a;
+			}
+		}
+		
+		return (int) maxA;
+	}
+	
+	/**
+	 * Co-ordinate height of the block
+	 * 
+	 * @return The height
+	 */
+	public int getHeight() {
+		return getMaxY() - getMinY();
 	}
 	
 	/**
