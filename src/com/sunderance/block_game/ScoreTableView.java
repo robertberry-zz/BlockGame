@@ -5,6 +5,8 @@ package com.sunderance.block_game;
 
 import org.newdawn.slick.UnicodeFont;
 
+import com.google.common.base.Strings;
+
 /**
  * View for score table class
  * 
@@ -52,5 +54,17 @@ public class ScoreTableView {
 			font.getHeight(line);
 			y += skipY;
 		}
+	}
+	
+	/**
+	 * Width of the score table
+	 * 
+	 * @return The width
+	 */
+	public int getWidth() {
+		// 10 for the size of the number and 1 for the space
+		String blankLine = Strings.repeat(" ", ScoreTable.MAX_NAME_LENGTH + 11);
+		// todo, cache this value
+		return font.getWidth(blankLine);
 	}
 }
