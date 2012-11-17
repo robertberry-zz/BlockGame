@@ -63,7 +63,7 @@ public class ScoreTableView {
 	 */
 	public int getWidth() {
 		// 10 for the size of the number and 1 for the space
-		String blankLine = Strings.repeat(" ", ScoreTable.MAX_NAME_LENGTH + 11);
+		String blankLine = Strings.repeat("x", ScoreTable.MAX_NAME_LENGTH + 11);
 		// todo, cache this value
 		return font.getWidth(blankLine);
 	}
