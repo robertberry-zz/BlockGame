@@ -39,7 +39,7 @@ public class BlockGame extends StateBasedGame {
 	}
 	
 	public BlockGame() {
-		super("BlockGame");
+		super("Block Game");
 	}
 	
 	private static final String SCORES_FILE_PATH = "data/scores.dat";
@@ -182,6 +182,7 @@ public class BlockGame extends StateBasedGame {
          
          app.setDisplayMode(WIDTH, HEIGHT, FULL_SCREEN);
          app.setTargetFrameRate(FRAMES_PER_SECOND);
+         app.setShowFPS(false);
          app.start();
     }
 	

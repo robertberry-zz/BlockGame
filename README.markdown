@@ -1,5 +1,7 @@
 # BlockGame
 
+![Screenshot](https://www.github.com/robertberry/BlockGame/raw/master/res/screenshot.jpg)
+
 Falling blocks game.
 
 Trying to get better at using Slick.
