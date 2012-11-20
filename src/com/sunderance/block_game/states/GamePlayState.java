@@ -7,6 +7,7 @@ import java.util.SortedSet;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
@@ -16,9 +17,12 @@ import com.sunderance.block_game.Block;
 import com.sunderance.block_game.BlockFactory;
 import com.sunderance.block_game.BlockGame;
 import com.sunderance.block_game.BlockGrid;
+import com.sunderance.block_game.EffectsManager;
 import com.sunderance.block_game.LevelLabel;
+import com.sunderance.block_game.LineClearedEffect;
 import com.sunderance.block_game.NextBlockBox;
 import com.sunderance.block_game.ScoreCounter;
+import com.sunderance.block_game.ScoreEffect;
 import com.sunderance.block_game.events.LevelUpEvent;
 import com.sunderance.block_game.events.LinesClearedEvent;
 import com.sunderance.block_game.events.NoLinesClearedEvent;
@@ -41,6 +45,8 @@ public class GamePlayState extends GameState implements Observer {
 	private LevelLabel level;
 	
 	private UnicodeFont smallFont;
+	
+	private Image linesClearedOverlay;
 	
 	private static final int BASE_FRAMES_PER_DROP = 30;
 	
@@ -75,11 +81,15 @@ public class GamePlayState extends GameState implements Observer {
 	private static final int FOUR_LINE_BONUS = 400;
 	private static final int DOUBLE_FOUR_LINE_BONUS = 800;
 	
+	private static final String OVERLAY_PATH = "res/lines-cleared-overlay.png";
+	
 	private boolean fourLineBonus = false;
 	
 	private int framesSinceDrop;
 	
 	private boolean softDrop = false;
+	
+	private EffectsManager effects;
 	
 	public GamePlayState(int stateID) {
 		super(stateID);
@@ -105,13 +115,15 @@ public class GamePlayState extends GameState implements Observer {
 		score.addObserver(this);
 		smallFont = ((BlockGame) game).getSmallFont();
 		level = new LevelLabel(1, LEVEL_X, LEVEL_Y, smallFont);
-
+		linesClearedOverlay = new Image(OVERLAY_PATH);
+		effects = new EffectsManager();
 	}
 	
 	/**
 	 * Reset game
 	 */
 	public void reset() {
+		effects = new EffectsManager();
 		grid.clear();
 		score.reset();
 		level.reset();
@@ -158,6 +170,7 @@ public class GamePlayState extends GameState implements Observer {
 		level.render();
 		smallFont.drawString(NEXT_TEXT_X, NEXT_TEXT_Y, NEXT_TEXT);
 		smallFont.drawString(SCORE_TEXT_X, SCORE_TEXT_Y, SCORE_TEXT);
+		effects.render(graphics);
 	}
 	
 	/**
@@ -186,10 +199,13 @@ public class GamePlayState extends GameState implements Observer {
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
+		effects.frame();
+		
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_RETURN)) {
 			currentBlock = currentBlock.getGhostBlock();
+			framesSinceDrop = BASE_FRAMES_PER_DROP;
 		}
 		
 		if (input.isKeyDown(Input.KEY_SPACE)) {
@@ -257,23 +273,32 @@ public class GamePlayState extends GameState implements Observer {
 			SortedSet<Integer> lines = ((LinesClearedEvent) event).getLines();
 
 			for (Integer line : lines) {
-				grid.clearLine(line);
+				effects.add(new LineClearedEffect(grid, line, 
+						linesClearedOverlay));
 			}
 			
 			int numberLines = lines.size();
-			
-			score.add(numberLines * SCORE_PER_LINE);
+			int scoreValue = numberLines * SCORE_PER_LINE;
 			
 			if (numberLines == 4) {
 				if (fourLineBonus) {
-					score.add(DOUBLE_FOUR_LINE_BONUS);
+					scoreValue += DOUBLE_FOUR_LINE_BONUS;
 				} else {
-					score.add(FOUR_LINE_BONUS);
+					scoreValue += FOUR_LINE_BONUS;
 				}
 				fourLineBonus = true;
 			} else {
 				fourLineBonus = false;
 			}
+			
+			float scoreX = grid.getWidth() - 
+					smallFont.getWidth(Integer.toString(scoreValue));
+			
+			float scoreY = grid.translateY(lines.last()) - BLOCK_SIZE;
+			
+			effects.add(new ScoreEffect(scoreValue, scoreX, scoreY,
+					-2, smallFont, score));
+			
 		} else if (event instanceof NoLinesClearedEvent) {
 			score.add(BLOCK_DROP_SCORE);
 		} else if (event instanceof LevelUpEvent) {

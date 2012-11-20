@@ -12,7 +12,6 @@ import com.sunderance.block_game.events.NoLinesClearedEvent;
 
 import Jama.Matrix;
 
-
 /**
  * The game grid
  * 
@@ -211,6 +210,12 @@ public class BlockGrid extends Observable implements BlockCoordinateMapper {
 		checkLines(lines_to_check);
 	}
 	
+	/**
+	 * Checks whether any of the given set of lines are full. If they are, fires
+	 * off an event.
+	 * 
+	 * @param lines The lines
+	 */
 	private void checkLines(Set<Integer> lines) {
 		TreeSet<Integer> cleared = new TreeSet<Integer>(
 				Collections.reverseOrder());
@@ -313,5 +318,23 @@ public class BlockGrid extends Observable implements BlockCoordinateMapper {
 	 */
 	public float getHeight() {
 		return rows * blockSize;
+	}
+
+	/**
+	 * Height of a line in pixels
+	 * 
+	 * @return The height
+	 */
+	public float getLineHeight() {
+		return blockSize;
+	}
+	
+	/**
+	 * Width of a line in pixels
+	 * 
+	 * @return The width
+	 */
+	public float getLineWidth() {
+		return getWidth();
 	}
 }
