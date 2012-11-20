@@ -15,8 +15,9 @@ import com.sunderance.block_game.BlockGame;
  * @author Robert Berry
  */
 public class PauseState extends GameState {
-	private static final int PAUSE_TEXT_X = 20;
-	private static final int PAUSE_TEXT_Y = 20;
+	private float textX;
+	private float textY;
+	
 	private static final String PAUSE_TEXT = "Paused";
 	
 	org.newdawn.slick.state.GameState gamePlay;
@@ -31,6 +32,9 @@ public class PauseState extends GameState {
 			throws SlickException {
 		gamePlay = game.getState(BlockGame.State.GAME_PLAY.ordinal());
 		font = ((BlockGame) game).getMediumFont();
+		
+		textX = (gc.getWidth() - font.getWidth(PAUSE_TEXT)) / 2;
+		textY = (gc.getHeight() - font.getHeight(PAUSE_TEXT)) / 2;
 	}
 
 	@Override
@@ -38,7 +42,7 @@ public class PauseState extends GameState {
 			throws SlickException {
 		gamePlay.render(gc, game, graphics);
 		
-		font.drawString(PAUSE_TEXT_X, PAUSE_TEXT_Y, PAUSE_TEXT);
+		font.drawString(textX, textY, PAUSE_TEXT);
 	}
 
 	@Override
