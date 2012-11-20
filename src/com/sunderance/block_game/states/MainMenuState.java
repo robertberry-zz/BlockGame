@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.sunderance.block_game.BlockGame;
@@ -22,9 +23,23 @@ public class MainMenuState extends GameState {
 	
 	Menu menu;
 	
-	private static final int TITLE_Y = 80;
+	private static final int TITLE_Y = 60;
 	
-	private static final int MENU_Y = 180;
+	private static final int MENU_Y = 400;
+	
+	private static final int SPLASH_Y = 150;
+	
+	private static final String CREDITS_TEXT = "by Robert James Berry (2012)";
+	
+	private float creditsX;
+	
+	private float creditsY;
+	
+	private float splashX;
+	
+	private UnicodeFont font;
+	
+	private Image splash;
 	
 	/**
 	 * Construct the state with the given ID
@@ -58,6 +73,15 @@ public class MainMenuState extends GameState {
 		MenuItem[] items = {newGame, highScores, quit};
 		
 		menu = new Menu(items);
+		
+		font = ((BlockGame) game).getSmallFont();
+		
+		creditsX = (gc.getWidth() - font.getWidth(CREDITS_TEXT)) / 2;
+		creditsY = gc.getHeight() - font.getHeight(CREDITS_TEXT) * 2;
+		
+		splash = new Image("res/splash-graphic.png");
+		
+		splashX = (gc.getWidth() - splash.getWidth()) / 2;
 	}
 	
 	/**
@@ -84,8 +108,9 @@ public class MainMenuState extends GameState {
 	public void render(GameContainer gc, StateBasedGame game, Graphics graphics)
 			throws SlickException {
 		title.draw(getTitleX(gc), TITLE_Y);
-		
 		menu.render(getMenuX(gc), MENU_Y);
+		font.drawString(creditsX, creditsY, CREDITS_TEXT);
+		splash.draw(splashX, SPLASH_Y);
 	}
 
 	@Override
